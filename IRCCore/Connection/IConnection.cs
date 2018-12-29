@@ -13,7 +13,6 @@ namespace UniversalIRC.IRCCore.Connection
 
         bool IsConnected { get; }
 
-        event EventHandler<DataReceivedEventArgs> DataReceived;
         event EventHandler Connected;
         event EventHandler Disconnected;
     }

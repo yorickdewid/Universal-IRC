@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.IRCCore.Connection
 {
+    public delegate void DataReceivedCallback(string data);
+
     /// <summary>
     /// Created a TCP connection via the TcpClient interface.
     /// </summary>
@@ -22,9 +24,19 @@ namespace UniversalIRC.IRCCore.Connection
 
         public bool IsConnected { get => tcpClient.Connected; }
 
-        public event EventHandler<DataReceivedEventArgs> DataReceived;
         public event EventHandler Connected;
         public event EventHandler Disconnected;
+
+        private DataReceivedCallback dataReceivedCallback;
+
+        public TcpClientConnection()
+        {
+        }
+
+        public TcpClientConnection(DataReceivedCallback dataReceivedCallback)
+        {
+            this.dataReceivedCallback = dataReceivedCallback;
+        }
 
         public async Task ConnectAsync(string address, int port)
         {
@@ -36,7 +48,13 @@ namespace UniversalIRC.IRCCore.Connection
             // Fire connected event
             Connected?.Invoke(this, EventArgs.Empty);
 
+            // Launch receiving loop
             ReceiveData();
+        }
+
+        public void Connect(string address, int port)
+        {
+            Task.Run(() => ConnectAsync(address, port));
         }
 
         /// <summary>
@@ -49,6 +67,11 @@ namespace UniversalIRC.IRCCore.Connection
             await streamWriter?.FlushAsync();
         }
 
+        public void Send(string data)
+        {
+            Task.Run(() => SendAsync(data));
+        }
+
         /// <summary>
         /// Read from the incomming datastream and fire an event when data is received.
         /// </summary>
@@ -59,10 +82,11 @@ namespace UniversalIRC.IRCCore.Connection
                 string line;
                 while ((line = await streamReader.ReadLineAsync()) != null)
                 {
-                    // Fire data received event
-                    DataReceived?.Invoke(this, new DataReceivedEventArgs(line));
+                    // Call reader callback
+                    dataReceivedCallback?.Invoke(line);
                 }
             }
+            catch (Exception e) { }
             finally
             {
                 // Fire disconnected event
