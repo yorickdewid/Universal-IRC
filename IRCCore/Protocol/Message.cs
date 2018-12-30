@@ -82,13 +82,21 @@ namespace UniversalIRC.IRCCore.Protocol
 
             void ParseCommand(string _data)
             {
-                if (Enum.TryParse(_data, out Command _command))
+                if (string.IsNullOrEmpty(_data))
+                {
+                    throw new ArgumentNullException();
+                }
+
+                if (int.TryParse(_data, out int _))
+                {
+                    if (Enum.TryParse(_data, out NumericCommand _numericCommand))
+                    {
+                        message.NumericCommand = _numericCommand;
+                    }
+                }
+                else if (Enum.TryParse(_data, out Command _command))
                 {
                     message.Command = _command;
-                }
-                else if (Enum.TryParse(_data, out NumericCommand _numericCommand))
-                {
-                    message.NumericCommand = _numericCommand;
                 }
                 else
                 {
