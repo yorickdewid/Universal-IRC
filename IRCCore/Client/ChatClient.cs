@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UniversalIRC.IRCCore.Connection;
 using UniversalIRC.IRCCore.Protocol;
 
-namespace UniversalIRC.IRCCore
+namespace UniversalIRC.IRCCore.Client
 {
     public class ChatClient : IIRCClient
     {
@@ -18,7 +18,6 @@ namespace UniversalIRC.IRCCore
         public event MessageEventHandler<PartMessage> OnPart;
         public event MessageEventHandler<QuitMessage> OnQuit;
 
-        // TODO: Maybe not
         public ChatClient()
         {
             Connection = new TcpClientConnection(
@@ -31,28 +30,18 @@ namespace UniversalIRC.IRCCore
         }
 
         /// <summary>
-        /// Connects to the specified IRC server using network server.
-        /// </summary>
-        /// <param name="server">IRC Network.</param>
-        public async Task ConnectAsync(Network server)
-        {
-            //Connection.DataReceived += Connection_DataReceived;
-            await Connection.ConnectAsync(server.Host, server.Port)
-                .ConfigureAwait(false);
-
-            // TODO: Do the authentication if required
-
-            await SendAsync(new UserMessage(server.User));
-            await SendAsync(new NickMessage(server.User));
-        }
-
-        /// <summary>
-        /// Connects to the specified IRC server using hostname.
+        /// Connects to the specified IRC server using hostname and port.
         /// </summary>
         /// <param name="host">IRC server hostname.</param>
-        public Task ConnectAsync(string host)
+        /// <param name="port">IRC server port.</param>
+        public async Task ConnectAsync(string host, int port, string nickName, string userName)
         {
-            return ConnectAsync(new Network(host));
+            await ConnectAsync(host, port);
+
+            userName = userName ?? nickName;
+
+            await SendAsync(new UserMessage(userName));
+            await SendAsync(new NickMessage(nickName));
         }
 
         /// <summary>
@@ -60,9 +49,11 @@ namespace UniversalIRC.IRCCore
         /// </summary>
         /// <param name="host">IRC server hostname.</param>
         /// <param name="port">IRC server port.</param>
-        public Task ConnectAsync(string host, int port)
+        public async Task ConnectAsync(string host, int port)
         {
-            return ConnectAsync(new Network(host, port));
+            await Connection.ConnectAsync(host, port);
+
+            // TODO: Do the authentication if required
         }
 
         /// <summary>
@@ -117,7 +108,7 @@ namespace UniversalIRC.IRCCore
         /// Send the message to the IRC network.
         /// </summary>
         /// <param name="message">An implementation of AbstractMessage.</param>
-        protected async Task SendAsync(AbstractMessage messageObject)
+        public async Task SendAsync(AbstractMessage messageObject)
         {
             var data = messageObject.Message.ToString();
             if (!data.EndsWith(crlf))
@@ -136,31 +127,9 @@ namespace UniversalIRC.IRCCore
             if (IsConnected)
             {
                 // Try quit or bail if this takes too long
-                Task.WaitAny(Quit(), Task.Delay(500));
+                Task.WaitAny(SendAsync(new QuitMessage()), Task.Delay(500));
             }
         }
-
-        /// <summary>
-        /// Join a channel.
-        /// </summary>
-        /// <param name="channel">Channel name.</param>
-        /// <returns></returns>
-        public async Task Join(string channel) => await SendAsync(new JoinMessage(channel));
-
-        /// <summary>
-        /// Send message.
-        /// </summary>
-        /// <param name="target">Channel or user.</param>
-        /// <param name="message">Message content.</param>
-        /// <returns></returns>
-        public async Task PrivMsg(string target, string message) => await SendAsync(new PrivMsgMessage(target, message));
-
-        /// <summary>
-        /// Disconnect from the server.
-        /// </summary>
-        /// <param name="message">Quit message.</param>
-        /// <returns></returns>
-        public async Task Quit(string message = null) => await SendAsync(new QuitMessage(message));
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

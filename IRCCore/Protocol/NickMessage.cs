@@ -9,13 +9,13 @@ namespace UniversalIRC.IRCCore.Protocol
     [IRCCommand(Command.NICK)]
     class NickMessage : AbstractMessage
     {
-        protected override string Parameters { get => user.NickName; }
+        protected override string Parameters { get => NickName; }
 
-        private User user;
+        public string NickName { get; }
 
-        public NickMessage(User user)
+        public NickMessage(string nickName)
         {
-            this.user = user;
+            NickName = nickName;
         }
     }
 }

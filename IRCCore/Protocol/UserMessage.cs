@@ -12,14 +12,22 @@ namespace UniversalIRC.IRCCore.Protocol
         private const int mode = 0;
         private const string hostname = "*";
 
-        protected override string Parameters { get => $"{user.UserName} {mode} {hostname}"; }
-        protected override string Trailing { get => user.RealName; }
+        protected override string Parameters { get => $"{UserName} {mode} {hostname}"; }
+        protected override string Trailing { get => RealName; }
 
-        private readonly User user;
+        public string UserName { get; }
+        public string RealName { get; }
 
-        public UserMessage(User user)
+        public UserMessage(string userName)
         {
-            this.user = user;
+            UserName = userName;
+            RealName = userName;
+        }
+
+        public UserMessage(string userName, string realName)
+        {
+            UserName = userName;
+            RealName = realName;
         }
     }
 }
