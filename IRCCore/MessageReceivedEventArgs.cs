@@ -11,9 +11,9 @@ namespace UniversalIRC.IRCCore
         /// </summary>
         public T Message { get; }
 
-        public MessageReceivedEventArgs(T message)
+        public MessageReceivedEventArgs(Message message)
         {
-            Message = message;
+            Message = Activator.CreateInstance(typeof(T), message) as T;
         }
     }
 }

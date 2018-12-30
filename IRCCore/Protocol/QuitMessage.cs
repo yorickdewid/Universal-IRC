@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore.Protocol
 {
     [IRCCommand(Command.QUIT)]
-    class QuitMessage : AbstractMessage
+    public class QuitMessage : AbstractMessage
     {
         protected override string Trailing { get => quitMessage; }
 
@@ -20,6 +20,11 @@ namespace UniversalIRC.IRCCore.Protocol
         public QuitMessage(string quitMessage)
         {
             this.quitMessage = quitMessage;
+        }
+
+        public QuitMessage(Message message)
+        {
+            quitMessage = message.Trailing;
         }
     }
 }

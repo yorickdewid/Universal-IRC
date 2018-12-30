@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore.Protocol
 {
     [IRCCommand(Command.JOIN)]
-    class JoinMessage : AbstractMessage
+    public class JoinMessage : AbstractMessage
     {
         protected override string Parameters { get => channel; }
 
@@ -16,6 +16,11 @@ namespace UniversalIRC.IRCCore.Protocol
         public JoinMessage(string channel)
         {
             this.channel = channel;
+        }
+
+        public JoinMessage(Message message)
+        {
+            channel = message.Parameters;
         }
     }
 }

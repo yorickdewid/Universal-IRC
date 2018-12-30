@@ -8,36 +8,47 @@ namespace UniversalIRC.IRCCore
 {
     public class Prefix
     {
-        public string From { get; }
-        
+        /// <summary>
+        /// Either servername or nickname.
+        /// </summary>
+        public string Name { get; }
+
         /// <summary>
         /// User source.
         /// </summary>
         public string User { get; }
-        
+
         /// <summary>
-        /// Vendor host.
+        /// User host.
         /// </summary>
         public string Host { get; }
 
         public Prefix(string data)
         {
-            From = data;
-
-            // Process tag
+            // Process user source
             if (data.Contains("@"))
             {
                 var splitedPrefix = data.Split('@');
-                From = splitedPrefix[0];
+                Name = splitedPrefix[0];
                 Host = splitedPrefix[1];
-            }
 
-            if (From.Contains("!"))
-            {
-                var splittedFrom = From.Split('!');
-                From = splittedFrom[0];
-                User = splittedFrom[1];
+                if (Name.Contains("!"))
+                {
+                    var splittedFrom = Name.Split('!');
+                    Name = splittedFrom[0];
+                    User = splittedFrom[1];
+                }
             }
+            // Process host source
+            else
+            {
+                Name = data;
+            }
+        }
+
+        public static Prefix Parse(string data)
+        {
+            return new Prefix(data);
         }
     }
 }

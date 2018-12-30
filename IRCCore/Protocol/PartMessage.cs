@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore.Protocol
 {
     [IRCCommand(Command.PART)]
-    class PartMessage : AbstractMessage
+    public class PartMessage : AbstractMessage
     {
         protected override string Parameters { get => channel; }
 
@@ -16,6 +16,11 @@ namespace UniversalIRC.IRCCore.Protocol
         public PartMessage(string channel)
         {
             this.channel = channel;
+        }
+
+        public PartMessage(Message message)
+        {
+            channel = message.Parameters;
         }
     }
 }

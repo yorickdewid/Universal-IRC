@@ -68,7 +68,7 @@ namespace UniversalIRC.IRCCore.Protocol
             {
                 int indexOfNextSpace = data.IndexOf(' ');
                 var prefixData = data.Substring(1, indexOfNextSpace - 1);
-                message.Prefix = new Prefix(prefixData);
+                message.Prefix = Prefix.Parse(prefixData);
                 data = data.Substring(indexOfNextSpace + 1);
             }
 
