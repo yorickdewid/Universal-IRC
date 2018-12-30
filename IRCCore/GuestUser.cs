@@ -10,8 +10,8 @@ namespace UniversalIRC.IRCCore
     {
         private static string GenerateRandomName()
         {
-            var counter = 4861;
-            return $"Guest{counter}";
+            Random random = new Random();
+            return $"Guest{random.Next(1000, 9999)}";
         }
 
         public GuestUser()
