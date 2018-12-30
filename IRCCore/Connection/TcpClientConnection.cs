@@ -67,6 +67,10 @@ namespace UniversalIRC.IRCCore.Connection
             await streamWriter?.FlushAsync();
         }
 
+        /// <summary>
+        /// Sends raw data to the remote endpoint.
+        /// </summary>
+        /// <param name="data">Message.</param>
         public void Send(string data)
         {
             Task.Run(() => SendAsync(data));
@@ -86,7 +90,7 @@ namespace UniversalIRC.IRCCore.Connection
                     dataReceivedCallback?.Invoke(line);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e) { } // TODO : Prevent Disposable exceptions
             finally
             {
                 // Fire disconnected event
