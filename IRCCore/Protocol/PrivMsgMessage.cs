@@ -7,24 +7,16 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore.Protocol
 {
     [IRCCommand(Command.PRIVMSG)]
-    public class PrivMsgMessage : AbstractMessage
+    public class PrivMsgMessage : NoticeMessage
     {
-        protected override string Parameters { get => Target; }
-        protected override string Trailing { get => TextMessage; }
-
-        public string Target { get; }
-        public string TextMessage { get; }
-
         public PrivMsgMessage(string target, string message)
+            : base(target, message)
         {
-            Target = target;
-            TextMessage = message;
         }
 
         public PrivMsgMessage(Message message)
+            : base(message)
         {
-            Target = message.Parameters;
-            TextMessage = message.Trailing;
         }
     }
 }
