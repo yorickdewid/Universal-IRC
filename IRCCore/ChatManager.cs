@@ -28,21 +28,28 @@ namespace UniversalIRC.IRCCore
         /// <summary>
         /// Join a channel.
         /// </summary>
-        /// <param name="channel">Channel name.</param>
-        public async Task Join(string channel) => await client.SendAsync(new JoinMessage(channel));
+        /// <param name="channel">Channel object.</param>
+        public async Task Join(IChannel channel) => await client.SendAsync(new JoinMessage(channel.Name));
 
         /// <summary>
         /// Leave a channel.
         /// </summary>
-        /// <param name="channel">Channel name.</param>
-        public async Task Part(string channel) => await client.SendAsync(new PartMessage(channel));
+        /// <param name="channel">Channel object.</param>
+        public async Task Part(IChannel channel) => await client.SendAsync(new PartMessage(channel.Name));
 
         /// <summary>
-        /// Send message.
+        /// Send message to channel.
         /// </summary>
-        /// <param name="target">Channel or user.</param>
+        /// <param name="channel">Channel object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(string target, string message) => await client.SendAsync(new PrivMsgMessage(target, message));
+        public async Task PrivMsg(IChannel channel, string message) => await client.SendAsync(new PrivMsgMessage(channel.Name, message));
+
+        /// <summary>
+        /// Send message to user.
+        /// </summary>
+        /// <param name="user">User object.</param>
+        /// <param name="message">Message content.</param>
+        public async Task PrivMsg(IUser user, string message) => await client.SendAsync(new PrivMsgMessage(user.Name, message));
 
         /// <summary>
         /// Disconnect from the server.

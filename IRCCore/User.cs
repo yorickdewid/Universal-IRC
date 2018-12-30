@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore
 {
     /// <summary>
-    /// Represents an IRC user.
+    /// IRC user.
     /// </summary>
-    public class User
+    public class User : IUser, ICanAuthenticate
     {
         public string UserName { get; set; }
         public string RealName { get; set; }
         public string NickName { get; set; }
         public string NickNameSecond { get; set; }
         public string NickNameThird { get; set; }
-        public string Password { get; set; }
-        UserAuthenticationMethod LoginMethod { get; set; } = UserAuthenticationMethod.None;
+        public string Password { get; }
+        public UserAuthenticationMethod AuthenticationMethod { get; } = UserAuthenticationMethod.None;
+
+        public string Name { get => NickName; set => NickName = value; }
 
         public User(string userName)
         {
@@ -32,7 +34,7 @@ namespace UniversalIRC.IRCCore
             RealName = userName;
             NickName = userName;
             Password = password;
-            LoginMethod = LoginMethod;
+            AuthenticationMethod = loginMethod;
         }
 
         public override string ToString()

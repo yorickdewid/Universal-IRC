@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversalIRC.IRCCore
+namespace UniversalIRC.IRCCore.Protocol
 {
     public class Prefix
     {

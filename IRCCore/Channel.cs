@@ -9,7 +9,7 @@ namespace UniversalIRC.IRCCore
     /// <summary>
     /// IRC channel.
     /// </summary>
-    public class Channel
+    public class Channel : IChannel
     {
         public string Name { get; }
 
