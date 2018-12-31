@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.IRCCore
 {
-    public interface IUser
+    public interface IUser : INotifyMessage
     {
         /// <summary>
         /// Network nickname.

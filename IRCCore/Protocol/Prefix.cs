@@ -46,6 +46,21 @@ namespace UniversalIRC.IRCCore.Protocol
             }
         }
 
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(Host))
+            {
+                if (!string.IsNullOrEmpty(User))
+                {
+                    return $"{Name}!{User}@{Host}";
+                }
+
+                return $"{Name}@{Host}";
+            }
+
+            return Name;
+        }
+
         public static Prefix Parse(string data)
         {
             return new Prefix(data);

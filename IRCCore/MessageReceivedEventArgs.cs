@@ -11,9 +11,15 @@ namespace UniversalIRC.IRCCore
         /// </summary>
         public T Message { get; }
 
+        /// <summary>
+        /// Message source.
+        /// </summary>
+        public Prefix Source { get; }
+
         public MessageReceivedEventArgs(Message message)
         {
             Message = Activator.CreateInstance(typeof(T), message) as T;
+            Source = message.Prefix;
         }
     }
 }

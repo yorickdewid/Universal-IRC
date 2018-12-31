@@ -10,7 +10,7 @@ namespace UniversalIRC.IRCCore
     /// IRC User entity. This entity can be
     /// notified about incommng IRC messages.
     /// </summary>
-    public class User : IUser, INotifyMessage
+    public class User : IUser
     {
         public string UserName { get; protected set; }
         public string NickName { get; protected set; }

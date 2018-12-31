@@ -9,18 +9,18 @@ namespace UniversalIRC.IRCCore.Protocol
     [IRCCommand(Command.JOIN)]
     public class JoinMessage : AbstractMessage
     {
-        protected override string Parameters { get => channel; }
+        protected override string Parameters { get => Channel; }
 
-        private readonly string channel;
+        private string Channel { get; }
 
         public JoinMessage(string channel)
         {
-            this.channel = channel;
+            Channel = channel;
         }
 
         public JoinMessage(Message message)
         {
-            channel = message.Parameters;
+            Channel = message.Parameters;
         }
     }
 }
