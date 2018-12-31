@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UniversalIRC.IRCCore.Protocol;
 
 namespace UniversalIRC.IRCCore
 {
-    public interface IUser : INotifyMessage
+    public interface IUser
     {
+        event MessageEventHandler<PrivMsgMessage> PrivMsg;
+        event MessageEventHandler<NoticeMessage> Notice;
+
         /// <summary>
         /// Network nickname.
         /// </summary>
@@ -22,5 +21,8 @@ namespace UniversalIRC.IRCCore
         /// Address/host of user.
         /// </summary>
         string Host { get; }
+
+        void TriggerPrivMsg(MessageReceivedEventArgs<PrivMsgMessage> args);
+        void TriggerNotice(MessageReceivedEventArgs<NoticeMessage> args);
     }
 }

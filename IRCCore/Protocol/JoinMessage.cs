@@ -11,7 +11,7 @@ namespace UniversalIRC.IRCCore.Protocol
     {
         protected override string Parameters { get => Channel; }
 
-        private string Channel { get; }
+        public string Channel { get; }
 
         public JoinMessage(string channel)
         {

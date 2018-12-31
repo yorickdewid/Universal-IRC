@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UniversalIRC.IRCCore.Protocol;
 
 namespace UniversalIRC.IRCCore
 {
@@ -18,10 +19,8 @@ namespace UniversalIRC.IRCCore
         public string NickNameThird { get; protected set; }
         public string Host { get; protected set; }
 
-        public event EventHandler PrivMsg;
-        public event EventHandler Join;
-        public event EventHandler Part;
-        public event EventHandler Quit;
+        public event MessageEventHandler<PrivMsgMessage> PrivMsg;
+        public event MessageEventHandler<NoticeMessage> Notice;
 
         public User(string nickName)
         {
@@ -34,6 +33,9 @@ namespace UniversalIRC.IRCCore
             NickName = nickName;
             UserName = userName;
         }
+
+        public void TriggerPrivMsg(MessageReceivedEventArgs<PrivMsgMessage> args) => PrivMsg?.Invoke(args);
+        public void TriggerNotice(MessageReceivedEventArgs<NoticeMessage> args) => Notice?.Invoke(args);
 
         public override string ToString()
         {

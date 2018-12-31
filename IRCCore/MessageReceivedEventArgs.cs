@@ -3,6 +3,9 @@ using UniversalIRC.IRCCore.Protocol;
 
 namespace UniversalIRC.IRCCore
 {
+    public delegate void MessageEventHandler<T>(MessageReceivedEventArgs<T> e)
+        where T : AbstractMessage;
+
     public class MessageReceivedEventArgs<T> : EventArgs
          where T : AbstractMessage
     {

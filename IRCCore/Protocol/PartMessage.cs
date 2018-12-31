@@ -9,18 +9,18 @@ namespace UniversalIRC.IRCCore.Protocol
     [IRCCommand(Command.PART)]
     public class PartMessage : AbstractMessage
     {
-        protected override string Parameters { get => channel; }
+        protected override string Parameters { get => Channel; }
 
-        private readonly string channel;
+        public string Channel { get; }
 
         public PartMessage(string channel)
         {
-            this.channel = channel;
+            Channel = channel;
         }
 
         public PartMessage(Message message)
         {
-            channel = message.Parameters;
+            Channel = message.Parameters;
         }
     }
 }
