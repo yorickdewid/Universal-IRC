@@ -7,11 +7,11 @@ namespace UniversalIRC.IRCCore
 {
     public class ChatManager : IDisposable
     {
-        private readonly IIRCClient client;
+        public IIRCClient Client { get; }
 
         public ChatManager(IIRCClient client)
         {
-            this.client = client;
+            Client = client;
         }
 
         /// <summary>
@@ -21,41 +21,41 @@ namespace UniversalIRC.IRCCore
         public Task ConnectAsync(Network network)
         {
             return network.IsAnonymous
-                ? client.ConnectAsync(network.Host, network.Port)
-                : client.ConnectAsync(network.Host, network.Port, network.User.NickName, (network.User as IUser).UserName);
+                ? Client.ConnectAsync(network.Host, network.Port)
+                : Client.ConnectAsync(network.Host, network.Port, network.User.NickName, (network.User as IUser).UserName);
         }
 
         /// <summary>
         /// Join a channel.
         /// </summary>
         /// <param name="channel">Channel object.</param>
-        public async Task Join(IChannel channel) => await client.SendAsync(new JoinMessage(channel.Name));
+        public async Task Join(IChannel channel) => await Client.SendAsync(new JoinMessage(channel.Name));
 
         /// <summary>
         /// Leave a channel.
         /// </summary>
         /// <param name="channel">Channel object.</param>
-        public async Task Part(IChannel channel) => await client.SendAsync(new PartMessage(channel.Name));
+        public async Task Part(IChannel channel) => await Client.SendAsync(new PartMessage(channel.Name));
 
         /// <summary>
         /// Send message to channel.
         /// </summary>
         /// <param name="channel">Channel object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(IChannel channel, string message) => await client.SendAsync(new PrivMsgMessage(channel.Name, message));
+        public async Task PrivMsg(IChannel channel, string message) => await Client.SendAsync(new PrivMsgMessage(channel.Name, message));
 
         /// <summary>
         /// Send message to user.
         /// </summary>
         /// <param name="user">User object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(IUser user, string message) => await client.SendAsync(new PrivMsgMessage(user.NickName, message));
+        public async Task PrivMsg(IUser user, string message) => await Client.SendAsync(new PrivMsgMessage(user.NickName, message));
 
         /// <summary>
         /// Disconnect from the server.
         /// </summary>
         /// <param name="message">Quit message.</param>
-        public async Task Quit(string message = null) => await client.SendAsync(new QuitMessage(message));
+        public async Task Quit(string message = null) => await Client.SendAsync(new QuitMessage(message));
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -66,7 +66,7 @@ namespace UniversalIRC.IRCCore
             {
                 if (disposing)
                 {
-                    client.Dispose();
+                    Client.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
