@@ -22,7 +22,7 @@ namespace UniversalIRC.IRCCore
         {
             return network.IsAnonymous
                 ? client.ConnectAsync(network.Host, network.Port)
-                : client.ConnectAsync(network.Host, network.Port, network.User.NickName, network.User.UserName);
+                : client.ConnectAsync(network.Host, network.Port, network.User.NickName, (network.User as IUser).UserName);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace UniversalIRC.IRCCore
         /// </summary>
         /// <param name="user">User object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(IUser user, string message) => await client.SendAsync(new PrivMsgMessage(user.Name, message));
+        public async Task PrivMsg(IUser user, string message) => await client.SendAsync(new PrivMsgMessage(user.NickName, message));
 
         /// <summary>
         /// Disconnect from the server.

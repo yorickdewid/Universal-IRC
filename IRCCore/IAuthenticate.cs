@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.IRCCore
 {
-    public interface IUser
+    public interface IAuthenticate
     {
         /// <summary>
         /// Network nickname.
         /// </summary>
         string NickName { get; }
-        
-        /// <summary>
-        /// Users full name.
-        /// </summary>
-        string UserName { get; }
 
         /// <summary>
-        /// Address/host of user.
+        /// Authentication password.
         /// </summary>
-        string Host { get; }
+        string Password { get; }
+
+        /// <summary>
+        /// Authentication method.
+        /// </summary>
+        AuthenticationMethod AuthenticationMethod { get; }
     }
 }

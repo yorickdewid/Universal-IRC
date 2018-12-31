@@ -13,6 +13,11 @@ namespace UniversalIRC.IRCCore
     {
         public string Name { get; }
 
+        public event EventHandler PrivMsg;
+        public event EventHandler Join;
+        public event EventHandler Part;
+        public event EventHandler Quit;
+
         public Channel(string name)
         {
             Name = name;

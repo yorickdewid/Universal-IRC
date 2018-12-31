@@ -7,39 +7,37 @@ using System.Threading.Tasks;
 namespace UniversalIRC.IRCCore
 {
     /// <summary>
-    /// IRC user.
+    /// IRC User entity. This entity can be
+    /// notified about incommng IRC messages.
     /// </summary>
-    public class User : IUser, ICanAuthenticate
+    public class User : IUser, INotifyMessage
     {
-        public string UserName { get; set; }
-        public string RealName { get; set; }
-        public string NickName { get; set; }
-        public string NickNameSecond { get; set; }
-        public string NickNameThird { get; set; }
-        public string Password { get; }
-        public UserAuthenticationMethod AuthenticationMethod { get; } = UserAuthenticationMethod.None;
+        public string UserName { get; protected set; }
+        public string NickName { get; protected set; }
+        public string NickNameSecond { get; protected set; }
+        public string NickNameThird { get; protected set; }
+        public string Host { get; protected set; }
 
-        public string Name { get => NickName; set => NickName = value; }
+        public event EventHandler PrivMsg;
+        public event EventHandler Join;
+        public event EventHandler Part;
+        public event EventHandler Quit;
 
-        public User(string userName)
+        public User(string nickName)
         {
-            UserName = userName;
-            RealName = userName;
-            NickName = userName;
+            NickName = nickName;
+            UserName = nickName;
         }
 
-        public User(string userName, string password, UserAuthenticationMethod loginMethod = UserAuthenticationMethod.ServerPassword)
+        public User(string nickName, string userName)
         {
+            NickName = nickName;
             UserName = userName;
-            RealName = userName;
-            NickName = userName;
-            Password = password;
-            AuthenticationMethod = loginMethod;
         }
 
         public override string ToString()
         {
-            return UserName;
+            return UserName ?? NickName;
         }
     }
 }

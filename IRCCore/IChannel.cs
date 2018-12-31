@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.IRCCore
 {
-    public interface IChannel
+    public interface IChannel : INotifyMessage
     {
         string Name { get; }
     }

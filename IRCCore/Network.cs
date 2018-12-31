@@ -13,7 +13,7 @@ namespace UniversalIRC.IRCCore
         public int Port { get; set; } = 6667;
         public bool UseSSL { get; set; } = true;
         public bool AcceptInvalidCertificate { get; set; } = false;
-        public User User { get; set; }
+        public IAuthenticate User { get; set; }
         public bool IsAnonymous { get => User == null; }
         public bool KeepAlive { get; set; } = true;
 
@@ -56,7 +56,7 @@ namespace UniversalIRC.IRCCore
         /// <param name="host">Server hostname.</param>
         /// <param name="port">Server port.</param>
         /// <param name="user">Authentication object.</param>
-        public Network(string host, int port, User user)
+        public Network(string host, int port, IAuthenticate user)
         {
             Host = host;
             Port = port;
@@ -70,7 +70,7 @@ namespace UniversalIRC.IRCCore
         /// <param name="port">Server port.</param>
         /// <param name="user">Authentication object.</param>
         /// <param name="name">Network name.</param>
-        public Network(string host, int port, User user, string name)
+        public Network(string host, int port, IAuthenticate user, string name)
         {
             Host = host;
             Port = port;

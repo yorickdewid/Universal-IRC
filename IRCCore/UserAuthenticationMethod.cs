@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.IRCCore
 {
-    public enum UserAuthenticationMethod
+    public enum AuthenticationMethod
     {
         None,
         ServerPassword,
