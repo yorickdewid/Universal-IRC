@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="UniversalIRC.ChatPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UniversalIRC"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Orientation="Vertical" Margin="10,0,10,10" VerticalAlignment="Bottom">
+            <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="DisconnectButton" Content="Disconnect" />
+                    <Grid>
+                        <ListBox x:Name="ConversationList"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 Margin="0,10,0,0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 ScrollViewer.HorizontalScrollMode="Auto"
+                                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        </ListBox>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="MessageTextBox" KeyDown="KeyboardKey_Pressed" Grid.Column="0" Margin="0,10,10,0" />
+                <Button x:Name="SendButton" Grid.Column="1" Content="Send" Click="SendButton_Click" Margin="5,10,0,0" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
