@@ -9,9 +9,9 @@ namespace UniversalIRC.IRCCore.Protocol
     [IRCCommand(Command.QUIT)]
     public class QuitMessage : AbstractMessage
     {
-        protected override string Trailing { get => quitMessage; }
+        protected override string Trailing { get => OptionalQuitMessage; }
 
-        private readonly string quitMessage;
+        public string OptionalQuitMessage { get; }
 
         public QuitMessage()
         {
@@ -19,12 +19,12 @@ namespace UniversalIRC.IRCCore.Protocol
 
         public QuitMessage(string quitMessage)
         {
-            this.quitMessage = quitMessage;
+            OptionalQuitMessage = quitMessage;
         }
 
         public QuitMessage(Message message)
         {
-            quitMessage = message.Trailing;
+            OptionalQuitMessage = message.Trailing;
         }
     }
 }

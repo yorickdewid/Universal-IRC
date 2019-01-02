@@ -96,15 +96,8 @@ namespace UniversalIRC.IRCCore
         /// </summary>
         private void OnQuit(MessageReceivedEventArgs<QuitMessage> args)
         {
-            //var channel = FindChannelOrDefault(args.Message.);
-            //if (channel != null)
-            //{
-            //    channel.TriggerQuit(args);
-            //}
-            //else
-            //{
-            //    // TODO:
-            //}
+            // TODO: Find corresponding channel
+            channels.ForEach(c => c.TriggerQuit(args));
         }
 
         /// <summary>
