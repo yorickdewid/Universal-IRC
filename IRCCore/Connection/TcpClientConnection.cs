@@ -22,12 +22,15 @@ namespace UniversalIRC.IRCCore.Connection
         private StreamReader streamReader;
         private StreamWriter streamWriter;
 
+        /// <summary>
+        /// Is connected to endpoint.
+        /// </summary>
         public bool IsConnected { get => tcpClient.Connected; }
 
         public event EventHandler Connected;
         public event EventHandler Disconnected;
 
-        private DataReceivedCallback dataReceivedCallback;
+        private readonly DataReceivedCallback dataReceivedCallback;
 
         public TcpClientConnection()
         {
@@ -38,6 +41,11 @@ namespace UniversalIRC.IRCCore.Connection
             this.dataReceivedCallback = dataReceivedCallback;
         }
 
+        /// <summary>
+        /// Connect to the remote endpoint.
+        /// </summary>
+        /// <param name="address">Remote address.</param>
+        /// <param name="port">Remote port.</param>
         public async Task ConnectAsync(string address, int port)
         {
             await tcpClient.ConnectAsync(address, port);
@@ -52,6 +60,11 @@ namespace UniversalIRC.IRCCore.Connection
             ReceiveData();
         }
 
+        /// <summary>
+        /// Connect to the remote endpoint.
+        /// </summary>
+        /// <param name="address">Remote address.</param>
+        /// <param name="port">Remote port.</param>
         public void Connect(string address, int port)
         {
             Task.Run(() => ConnectAsync(address, port));
