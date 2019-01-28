@@ -33,6 +33,20 @@ namespace UniversalIRC.IRCCore.Client
         /// </summary>
         /// <param name="host">IRC server hostname.</param>
         /// <param name="port">IRC server port.</param>
+        public async Task ConnectAsync(string host, int port)
+        {
+            await Connection.ConnectAsync(host, port);
+
+            // TODO: Do the authentication if required
+        }
+
+        /// <summary>
+        /// Connects to the specified IRC server using hostname and port.
+        /// </summary>
+        /// <param name="host">IRC server hostname.</param>
+        /// <param name="port">IRC server port.</param>
+        /// <param name="nickName">Network nickname.</param>
+        /// <param name="userName">Network username.</param>
         public async Task ConnectAsync(string host, int port, string nickName, string userName)
         {
             await ConnectAsync(host, port);
@@ -41,18 +55,6 @@ namespace UniversalIRC.IRCCore.Client
 
             await SendAsync(new UserMessage(userName));
             await SendAsync(new NickMessage(nickName));
-        }
-
-        /// <summary>
-        /// Connects to the specified IRC server using hostname and port.
-        /// </summary>
-        /// <param name="host">IRC server hostname.</param>
-        /// <param name="port">IRC server port.</param>
-        public async Task ConnectAsync(string host, int port)
-        {
-            await Connection.ConnectAsync(host, port);
-
-            // TODO: Do the authentication if required
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace UniversalIRC.IRCCore.Client
         }
 
         /// <summary>
-        /// Send the message to the IRC network.
+        /// Send a message to IRC network.
         /// </summary>
         /// <param name="message">An implementation of AbstractMessage.</param>
         public async Task SendAsync(AbstractMessage messageObject)
