@@ -27,7 +27,7 @@
                 Header="Port"
                 Text="6667" />
         </Grid>
-        <CheckBox Content="Use SSL" IsChecked="True" />
+        <!--<CheckBox Content="Use SSL" IsChecked="True" />-->
         <TextBox
             Margin="0,10,0,0"
             Header="Nickname"
