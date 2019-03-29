@@ -16,18 +16,16 @@ namespace UniversalIRC.ViewModels
 
         public ElementTheme ElementTheme
         {
-            get { return _elementTheme; }
-
-            set { Set(ref _elementTheme, value); }
+            get => _elementTheme;
+            set => Set(ref _elementTheme, value);
         }
 
         private string _versionDescription;
 
         public string VersionDescription
         {
-            get { return _versionDescription; }
-
-            set { Set(ref _versionDescription, value); }
+            get => _versionDescription;
+            set => Set(ref _versionDescription, value);
         }
 
         private ICommand _switchThemeCommand;
