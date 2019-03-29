@@ -94,7 +94,6 @@
                             Click="Settings_Click"
                             Icon="Setting"
                             Label="Settings" />
-                        <AppBarButton Icon="People" Label="Edit profile" />
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
