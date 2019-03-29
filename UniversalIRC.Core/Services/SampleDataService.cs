@@ -21,9 +21,9 @@ namespace UniversalIRC.Core.Services
                     Symbol = (char)59158,
                     ChatHistory = new Collection<ChatMessage>
                     {
-                        new ChatMessage{ Message = "New kernel looks awesome" },
-                        new ChatMessage{ Message = "Yes, just made the last commit" },
-                        new ChatMessage{ Message = "Its a lot faster too.." },
+                        new ChatMessage{ Sender = "Someuser", Message = "New kernel looks awesome" },
+                        new ChatMessage{ Sender = "User22", Message = "Yes, just made the last commit" },
+                        new ChatMessage{ Sender = "Linux2User", Message = "Its a lot faster too.." },
                     }
                 },
                 new ChatRoom

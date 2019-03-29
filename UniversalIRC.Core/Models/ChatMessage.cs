@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UniversalIRC.Core.Models
 {
@@ -8,8 +6,14 @@ namespace UniversalIRC.Core.Models
     {
         public string Message { get; set; }
 
+        public string Sender { get; set; }
+
         public override string ToString()
         {
+            if (!string.IsNullOrEmpty(Sender))
+            {
+                return $"{Sender}: {Message}";
+            }
             return $"{Message}";
         }
     }

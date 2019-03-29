@@ -59,7 +59,7 @@
             </ListView>
 
             <!--  Input:  -->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="LightGray">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -67,11 +67,11 @@
                 </Grid.ColumnDefinitions>
                 <Button
                     Grid.Column="0"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Center"
                     Background="Transparent"
                     Content="&#xE723;"
                     FontFamily="Segoe MDL2 Assets"
-                    FontSize="27"
+                    FontSize="20"
                     ToolTipService.ToolTip="Send images/files">
                     <Button.Flyout>
                         <Flyout>
@@ -155,11 +155,11 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <TextBox x:Name="message_tbx" Grid.Column="1" />
+                <TextBox x:Name="message_tbx" BorderThickness="0" FontSize="16" VerticalAlignment="Center" Grid.Column="1" />
                 <Button
                     x:Name="send_btn"
                     Grid.Column="2"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Center"
                     AllowFocusOnInteraction="False"
                     Background="Transparent"
                     FontSize="27"
