@@ -185,4 +185,8 @@
     <value>Conversations</value>
     <comment>Master details header text</comment>
   </data>
+  <data name="ExtendedSplashScreen_Title.Text" xml:space="preserve">
+    <value>ExtendedSplashScreen</value>
+    <comment>Page title for ExtendedSplashScreenPage</comment>
+  </data>
 </root>
