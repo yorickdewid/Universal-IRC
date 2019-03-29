@@ -1,0 +1,71 @@
+﻿<ContentDialog
+    x:Class="UniversalIRC.Dialogs.ConnectDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Connect to Network"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Connect"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonText="Cancel"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Grid.Column="0"
+                Header="Server"
+                PlaceholderText="Server" />
+            <TextBox
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                Header="Port"
+                Text="6667" />
+        </Grid>
+        <CheckBox Content="Use SSL" IsChecked="True" />
+        <TextBox
+            Margin="0,10,0,0"
+            Header="Nickname"
+            Text="Guest67" />
+        <PasswordBox Header="Password (optional)" PlaceholderText="Password" />
+    </StackPanel>
+
+    <!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="55" />
+            <RowDefinition Height="55" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Header="Server"
+            PlaceholderText="Server" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="10,0,0,0"
+            Header="Port"
+            Text="6667" />
+        <PasswordBox
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Header="Password (optional)"
+            PlaceholderText="Password" />
+        <TextBox
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Header="Nickname"
+            Text="Guest67" />
+    </Grid>-->
+</ContentDialog>
