@@ -1,6 +1,8 @@
 ﻿using System;
 
+using UniversalIRC.Core.Models;
 using UniversalIRC.Dialogs;
+using UniversalIRC.Helpers;
 using UniversalIRC.Services;
 using UniversalIRC.ViewModels;
 
@@ -22,15 +24,31 @@ namespace UniversalIRC.Views
         private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
         {
             var dialog = new ConnectDialog();
-            dialog.ConnectClick += Dialog_PrimaryButtonClick;
+            dialog.ConnectClick += Dialog_ConnectClick;
+
+            // Present connect dialog to user
             await dialog.ShowAsync();
 
             await ViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
         }
 
-        private void Dialog_PrimaryButtonClick(ConnectDialog sender, ConnectDialogViewModel viewModel)
+        private void Dialog_ConnectClick(ConnectDialog sender, ConnectDialogViewModel viewModel)
         {
             ChatPage_ConnectLoader.IsLoading = true;
+            var dispatcherTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2),
+            };
+            dispatcherTimer.Tick += (object s, object e) =>
+            {
+                dispatcherTimer.Stop();
+
+                var network = NetworkModelConverter.AsNetworkModel(viewModel);
+                ViewModel.ContactItems.Add(network);
+
+                ChatPage_ConnectLoader.IsLoading = false;
+            };
+            dispatcherTimer.Start();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
