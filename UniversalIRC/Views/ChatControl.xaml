@@ -36,7 +36,7 @@
                     Padding="10,5,10,5"
                     VerticalAlignment="Center"
                     Style="{ThemeResource TitleTextBlockStyle}"
-                    Text="{x:Bind ChatRoomItem.Name, Mode=OneWay}" />
+                    Text="{x:Bind ChatItem.Name, Mode=OneWay}" />
             </Grid>
 
             <!--  Messages  -->
@@ -77,8 +77,8 @@
                     Content="&#xE723;"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="20"
-                    Visibility="Collapsed"
-                    ToolTipService.ToolTip="Send images/files">
+                    ToolTipService.ToolTip="Send images/files"
+                    Visibility="Collapsed">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>

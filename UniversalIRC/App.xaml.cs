@@ -35,7 +35,7 @@ namespace UniversalIRC
 
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(Views.MasterDetailPage));
+            return new ActivationService(this, typeof(Views.ChatPage));
         }
     }
 }

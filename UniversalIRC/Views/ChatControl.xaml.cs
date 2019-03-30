@@ -15,13 +15,13 @@ namespace UniversalIRC.Views
     {
         public ChatControlViewModel ViewModel { get; } = new ChatControlViewModel();
 
-        public ChatRoom ChatRoomItem
+        public Chat ChatItem
         {
-            get => GetValue(ChatRoomItemProperty) as ChatRoom;
-            set => SetValue(ChatRoomItemProperty, value);
+            get => GetValue(ChatItemProperty) as Chat;
+            set => SetValue(ChatItemProperty, value);
         }
 
-        public static readonly DependencyProperty ChatRoomItemProperty = DependencyProperty.Register("ChatRoomItem", typeof(ChatRoom), typeof(ChatControl), new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
+        public static readonly DependencyProperty ChatItemProperty = DependencyProperty.Register("ChatItem", typeof(Chat), typeof(ChatControl), new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
 
         public ChatControl()
         {
@@ -32,10 +32,8 @@ namespace UniversalIRC.Views
         {
             var control = d as ChatControl;
 
-            control.ViewModel.Initialize();
-
             control.ViewModel.MessageHistory.Clear();
-            foreach (var item in control.ChatRoomItem.ChatHistory)
+            foreach (var item in control.ChatItem.ChatHistory)
             {
                 control.ViewModel.MessageHistory.Add(item);
             }

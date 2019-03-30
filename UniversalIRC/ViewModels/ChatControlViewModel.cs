@@ -17,10 +17,5 @@ namespace UniversalIRC.ViewModels
         }
 
         public ObservableCollection<ChatMessage> MessageHistory { get; private set; } = new ObservableCollection<ChatMessage>();
-
-        public void Initialize()
-        {
-            //
-        }
     }
 }

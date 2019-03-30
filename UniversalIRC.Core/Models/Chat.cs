@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace UniversalIRC.Core.Models
 {
-    public class ChatRoom
+    public abstract class Chat
     {
         public string Name { get; set; }
 
-        public string LastMessage { get => "kaas"; }
+        public string LastMessage { get => string.Empty; }
 
-        public char Symbol { get; set; }
+        public char Symbol { get; protected set; }
 
         public IEnumerable<ChatMessage> ChatHistory { get; set; }
 

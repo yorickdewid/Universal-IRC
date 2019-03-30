@@ -10,15 +10,24 @@ namespace UniversalIRC.Core.Services
     // This class holds sample data used by some generated pages to show how they can be used.
     public static class SampleDataService
     {
-        private static IEnumerable<ChatRoom> AllChannels()
+        private static IEnumerable<Chat> AllChannels()
         {
             // The following is chat room example data
-            return new Collection<ChatRoom>
+            return new Collection<Chat>
             {
-                new ChatRoom
+                new Network("FreeNode", "irc.freenode.net")
                 {
-                    Name = "#linux",
-                    Symbol = (char)59158,
+                    ChatHistory = new Collection<ChatMessage>
+                    {
+                        new ChatMessage{ Message = "tolkien.freenode.net Message of the Day - " },
+                        new ChatMessage{ Message = "Welcome to tolkien.freenode.net in Sanford, NC, US. Thanks to" },
+                        new ChatMessage{ Message = "https://travelingmailbox.com/ for sponsoring this server" },
+                        new ChatMessage{ Message = "Welcome to freenode - supporting the free and open source" },
+                        new ChatMessage{ Message = "software communities since 1998." },
+                    }
+                },
+                new Channel("#linux")
+                {
                     ChatHistory = new Collection<ChatMessage>
                     {
                         new ChatMessage{ Sender = "Someuser", Message = "New kernel looks awesome" },
@@ -26,30 +35,18 @@ namespace UniversalIRC.Core.Services
                         new ChatMessage{ Sender = "Linux2User", Message = "Its a lot faster too.." },
                     }
                 },
-                new ChatRoom
+                new Channel("#python-unregistered"),
+                new Channel("#postgres"),
+                new Private("Torvalds")
                 {
-                    Name = "#python-unregistered",
-                    Symbol = (char)59158
-                },
-                new ChatRoom
-                {
-                    Name = "#postgres",
-                    Symbol = (char)59158
-                },
-                new ChatRoom
-                {
-                    Name = "Torvalds",
-                    Symbol = (char)57661,
                     ChatHistory = new Collection<ChatMessage>
                     {
                         new ChatMessage{ Message = "Hi there, how are you doing?" },
                         new ChatMessage{ Message = "I am testing" },
                     }
                 },
-                new ChatRoom
+                new Channel("#debian")
                 {
-                    Name = "#debian",
-                    Symbol = (char)59158,
                     ChatHistory = new Collection<ChatMessage>
                     {
                         new ChatMessage{ Message = "When is the next debian release?" },
@@ -59,7 +56,7 @@ namespace UniversalIRC.Core.Services
             };
         }
 
-        public static async Task<IEnumerable<ChatRoom>> GetSampleModelDataAsync()
+        public static async Task<IEnumerable<Chat>> GetSampleModelDataAsync()
         {
             await Task.CompletedTask;
 

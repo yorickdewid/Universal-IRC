@@ -13,15 +13,15 @@ namespace UniversalIRC.ViewModels
 {
     public class MasterDetailViewModel : Observable
     {
-        private ChatRoom _selected;
+        private Chat _selected;
 
-        public ChatRoom Selected
+        public Chat Selected
         {
             get { return _selected; }
             set { Set(ref _selected, value); }
         }
 
-        public ObservableCollection<ChatRoom> ContactItems { get; private set; } = new ObservableCollection<ChatRoom>();
+        public ObservableCollection<Chat> ContactItems { get; private set; } = new ObservableCollection<Chat>();
 
         public async Task LoadDataAsync(MasterDetailsViewState viewState)
         {
