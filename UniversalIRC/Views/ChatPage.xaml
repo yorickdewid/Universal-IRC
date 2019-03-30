@@ -50,12 +50,12 @@
 
         <DataTemplate x:Key="NoSelectionContentTemplate">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <TextBlock
+                <!--<TextBlock
                     x:Uid="MasterDetail_NoSelection"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    TextAlignment="Center" />
+                    TextAlignment="Center" />-->
             </Grid>
         </DataTemplate>
 
@@ -101,5 +101,25 @@
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
         </controls:MasterDetailsView>
+
+        <controls:Loading
+            x:Name="LoadingPage"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            IsLoading="True">
+            <controls:Loading.Background>
+                <SolidColorBrush Color="White" />
+            </controls:Loading.Background>
+            <StackPanel Padding="12" Orientation="Horizontal">
+                <Grid Margin="0,0,8,0">
+                    <ProgressRing IsActive="True" />
+                </Grid>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="Black"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Connecting to network..." />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

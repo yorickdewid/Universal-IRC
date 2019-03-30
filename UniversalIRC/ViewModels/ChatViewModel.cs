@@ -11,7 +11,7 @@ using UniversalIRC.Helpers;
 
 namespace UniversalIRC.ViewModels
 {
-    public class MasterDetailViewModel : Observable
+    public class ChatViewModel : Observable
     {
         private Chat _selected;
 
@@ -27,17 +27,19 @@ namespace UniversalIRC.ViewModels
         {
             ContactItems.Clear();
 
-            var data = await SampleDataService.GetSampleModelDataAsync();
+            await Task.CompletedTask;
 
-            foreach (var item in data)
-            {
-                ContactItems.Add(item);
-            }
+            //var data = await SampleDataService.GetSampleModelDataAsync();
 
-            if (viewState == MasterDetailsViewState.Both)
-            {
-                Selected = ContactItems.First();
-            }
+            //foreach (var item in data)
+            //{
+            //    ContactItems.Add(item);
+            //}
+
+            //if (viewState == MasterDetailsViewState.Both)
+            //{
+            //    Selected = ContactItems.First();
+            //}
         }
     }
 }

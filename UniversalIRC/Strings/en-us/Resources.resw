@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>UniversalIRC</value>
+    <value>Universal IRC</value>
     <comment>Application display name</comment>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>UniversalIRC</value>
+    <value>Universal IRC</value>
     <comment>Application description</comment>
   </data>
   <data name="MasterDetail_NoSelection.Text" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Settings page placeholder text.  Your app description goes here.</value>
+    <value>IRC client for the Univeral Windows Platform</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
@@ -162,7 +162,7 @@
     <comment>Privacy Statement link content for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>https://github.com/yorickdewid/Universal-IRC</value>
     <comment>Here is your Privacy Statement url for Settings</comment>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
@@ -170,11 +170,11 @@
     <comment>Personalization text for Settings</comment>
   </data>
   <data name="ExceptionEnumToBooleanConverterValueMustBeAnEnum" xml:space="preserve">
-    <value>value must be an Enum!</value>
+    <value>Value must be an Enum!</value>
     <comment>Value must be an Enum in enum to boolean converter</comment>
   </data>
   <data name="ExceptionEnumToBooleanConverterParameterMustBeAnEnumName" xml:space="preserve">
-    <value>parameter must be an Enum name!</value>
+    <value>Parameter must be an Enum name!</value>
     <comment>Parameter must be an Enum name in enum to boolean converter</comment>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
@@ -184,9 +184,5 @@
   <data name="MasterDetails_Control.MasterHeader" xml:space="preserve">
     <value>Conversations</value>
     <comment>Master details header text</comment>
-  </data>
-  <data name="ExtendedSplashScreen_Title.Text" xml:space="preserve">
-    <value>ExtendedSplashScreen</value>
-    <comment>Page title for ExtendedSplashScreenPage</comment>
   </data>
 </root>

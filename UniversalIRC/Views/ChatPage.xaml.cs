@@ -11,7 +11,7 @@ namespace UniversalIRC.Views
 {
     public sealed partial class ChatPage : Page
     {
-        public MasterDetailViewModel ViewModel { get; } = new MasterDetailViewModel();
+        public ChatViewModel ViewModel { get; } = new ChatViewModel();
 
         public ChatPage()
         {
