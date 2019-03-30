@@ -17,8 +17,8 @@ namespace UniversalIRC.Services
             if (!shown)
             {
                 shown = true;
-                var dialog = new ConnectDialog();
-                await dialog.ShowAsync();
+                //var dialog = new ConnectDialog();
+                //await dialog.ShowAsync();
             }
         }
     }

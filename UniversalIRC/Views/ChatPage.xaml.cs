@@ -21,7 +21,16 @@ namespace UniversalIRC.Views
 
         private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
         {
+            var dialog = new ConnectDialog();
+            dialog.ConnectClick += Dialog_PrimaryButtonClick;
+            await dialog.ShowAsync();
+
             await ViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
+        }
+
+        private void Dialog_PrimaryButtonClick(ConnectDialog sender, ConnectDialogViewModel viewModel)
+        {
+            ChatPage_ConnectLoader.IsLoading = true;
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

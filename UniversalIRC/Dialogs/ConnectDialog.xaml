@@ -5,9 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Connect to Network"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonClick="ContentDialog_ConnectClick"
     PrimaryButtonText="Connect"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
@@ -20,52 +19,24 @@
             <TextBox
                 Grid.Column="0"
                 Header="Server"
-                PlaceholderText="Server" />
+                PlaceholderText="Server"
+                Text="{x:Bind ViewModel.Host, Mode=TwoWay}" />
             <TextBox
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 Header="Port"
-                Text="6667" />
+                Text="{x:Bind ViewModel.Port, FallbackValue=6667}" />
         </Grid>
         <!--<CheckBox Content="Use SSL" IsChecked="True" />-->
         <TextBox
             Margin="0,10,0,0"
             Header="Nickname"
-            Text="Guest67" />
-        <PasswordBox Header="Password (optional)" PlaceholderText="Password" />
-    </StackPanel>
-
-    <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="55" />
-            <RowDefinition Height="55" />
-            <RowDefinition Height="55" />
-        </Grid.RowDefinitions>
-        <TextBox
-            Grid.Row="1"
-            Grid.Column="0"
-            Header="Server"
-            PlaceholderText="Server" />
-        <TextBox
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10,0,0,0"
-            Header="Port"
-            Text="6667" />
+            PlaceholderText="Nickname"
+            Text="{x:Bind ViewModel.Nickname, Mode=TwoWay}" />
         <PasswordBox
-            Grid.Row="2"
-            Grid.ColumnSpan="2"
             Header="Password (optional)"
+            Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
             PlaceholderText="Password" />
-        <TextBox
-            Grid.Row="3"
-            Grid.ColumnSpan="2"
-            Header="Nickname"
-            Text="Guest67" />
-    </Grid>-->
+        <!--<CheckBox Content="Remember me" IsChecked="True" />-->
+    </StackPanel>
 </ContentDialog>

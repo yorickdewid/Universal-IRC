@@ -130,6 +130,7 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ChatControlViewModel.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
+    <Compile Include="ViewModels\ConnectDialogViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>

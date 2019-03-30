@@ -103,10 +103,10 @@
         </controls:MasterDetailsView>
 
         <controls:Loading
-            x:Name="LoadingPage"
+            x:Name="ChatPage_ConnectLoader"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
-            IsLoading="True">
+            IsLoading="False">
             <controls:Loading.Background>
                 <SolidColorBrush Color="White" />
             </controls:Loading.Background>
