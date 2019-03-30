@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 using Windows.ApplicationModel.Resources;
 
-namespace UniversalIRC.Helpers
+namespace UniversalIRC.Extensions
 {
     internal static class ResourceExtensions
     {

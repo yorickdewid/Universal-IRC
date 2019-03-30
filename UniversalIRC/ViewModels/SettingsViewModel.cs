@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
+using UniversalIRC.Extensions;
 using UniversalIRC.Helpers;
 using UniversalIRC.Services;
 

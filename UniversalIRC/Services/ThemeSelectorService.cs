@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using UniversalIRC.Helpers;
+using UniversalIRC.Extensions;
 
 using Windows.ApplicationModel.Core;
 using Windows.Storage;

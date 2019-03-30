@@ -1,5 +1,7 @@
 ﻿using System;
 
+using UniversalIRC.Extensions;
+
 using Windows.UI.Xaml.Data;
 
 namespace UniversalIRC.Helpers
