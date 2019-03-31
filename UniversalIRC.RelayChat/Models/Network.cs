@@ -1,14 +1,15 @@
 ﻿using System;
 
-namespace UniversalIRC.RelayChat
+namespace UniversalIRC.RelayChat.Models
 {
-    public class Network
+    public class Network : INetwork
     {
         /// <summary>
         /// Network name.
         /// </summary>
         public string Name { get; set; }
 
+        // TODO: Should be a list
         /// <summary>
         /// Network server host.
         /// </summary>
@@ -18,32 +19,37 @@ namespace UniversalIRC.RelayChat
         /// Network sever port.
         /// </summary>
         public int Port { get; set; } = 6667;
-        
+
         /// <summary>
         /// Use secure or plain connection to network.
         /// </summary>
         public bool UseSSL { get; set; } = true;
-        
+
         /// <summary>
         /// Indicates if network certificate can be trusted.
         /// </summary>
         public bool AcceptInvalidCertificate { get; set; } = false;
-        
+
         /// <summary>
         /// Authentication object.
         /// </summary>
-        public IAuthenticate User { get; set; }
+        public IAuthenticate Principal { get; set; }
 
         /// <summary>
-        /// Indicates whether network connects via user or not.
+        /// Indicates whether authentication principal is set.
         /// </summary>
-        public bool IsAnonymous { get => User == null; }
-        
+        public bool IsAnonymous { get => Principal == null; }
+
+        public bool HasUser { get => Principal is IUser; }
+
+        public IUser User { get => Principal as IUser; }
+
         /// <summary>
         /// Keep the connection alive.
         /// </summary>
         public bool KeepAlive { get; set; } = true;
 
+        // TODO: Trigger this somewhere
         public event EventHandler Notice;
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace UniversalIRC.RelayChat
         {
             Host = host;
             Port = port;
-            User = user;
+            Principal = user;
         }
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace UniversalIRC.RelayChat
         {
             Host = host;
             Port = port;
-            User = user;
+            Principal = user;
             Name = name;
         }
     }

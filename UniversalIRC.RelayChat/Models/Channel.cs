@@ -2,7 +2,7 @@
 
 using UniversalIRC.RelayChat.Protocol;
 
-namespace UniversalIRC.RelayChat
+namespace UniversalIRC.RelayChat.Models
 {
     /// <summary>
     /// IRC channel.

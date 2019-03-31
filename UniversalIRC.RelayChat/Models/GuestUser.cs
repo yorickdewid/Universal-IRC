@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UniversalIRC.RelayChat
+namespace UniversalIRC.RelayChat.Models
 {
     public class GuestUser : User
     {

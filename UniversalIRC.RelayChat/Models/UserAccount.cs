@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversalIRC.RelayChat
+namespace UniversalIRC.RelayChat.Models
 {
     /// <summary>
     /// IRC user account able to represent the client user.
