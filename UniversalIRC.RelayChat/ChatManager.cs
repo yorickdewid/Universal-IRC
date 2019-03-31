@@ -35,14 +35,11 @@ namespace UniversalIRC.RelayChat
             Client.OnQuit += OnQuit;
         }
 
-        private IChannel FindChannel(string target)
-        {
-            return channels.Single(s => string.Compare(s.Name, target, true) == 0);
-        }
-        private IChannel FindChannelOrDefault(string target)
-        {
-            return channels.SingleOrDefault(s => string.Compare(s.Name, target, true) == 0);
-        }
+        protected IChannel FindChannel(string target)
+            => channels.Single(s => string.Compare(s.Name, target, true) == 0);
+
+        protected IChannel FindChannelOrDefault(string target)
+            => channels.SingleOrDefault(s => string.Compare(s.Name, target, true) == 0);
 
         /// <summary>
         /// Find channel/user an raise event.
@@ -56,7 +53,7 @@ namespace UniversalIRC.RelayChat
             }
             else
             {
-                // TODO:
+                OnIncommingUserMessage(args);
             }
         }
 
@@ -72,51 +69,52 @@ namespace UniversalIRC.RelayChat
             }
             else
             {
-                // TODO:
+                // TODO: Trigger EventHandler in a network
             }
         }
 
         /// <summary>
         /// Find channel an raise event.
         /// </summary>
-        private void OnJoin(MessageReceivedEventArgs<JoinMessage> args)
-        {
-            FindChannel(args.Message.Channel).TriggerJoin(args);
-        }
+        protected virtual void OnJoin(MessageReceivedEventArgs<JoinMessage> args)
+            => FindChannel(args.Message.Channel).TriggerJoin(args);
 
         /// <summary>
         /// Find channel an raise event.
         /// </summary>
-        private void OnPart(MessageReceivedEventArgs<PartMessage> args)
-        {
-            FindChannel(args.Message.Channel).TriggerPart(args);
-        }
+        protected virtual void OnPart(MessageReceivedEventArgs<PartMessage> args)
+            => FindChannel(args.Message.Channel).TriggerPart(args);
 
         /// <summary>
         /// Find channel/user an raise event.
         /// </summary>
-        private void OnQuit(MessageReceivedEventArgs<QuitMessage> args)
+        protected virtual void OnQuit(MessageReceivedEventArgs<QuitMessage> args)
         {
             // TODO: Find corresponding channel
             channels.ForEach(c => c.TriggerQuit(args));
         }
 
         /// <summary>
+        /// Override to handle incomming private user messages.
+        /// </summary>
+        protected virtual void OnIncommingUserMessage(MessageReceivedEventArgs<PrivMsgMessage> args) { }
+
+        /// <summary>
         /// Connect to the IRC network.
         /// </summary>
         /// <param name="network">Network settings.</param>
-        public Task ConnectAsync(Network network)
+        public Task ConnectAsync(INetwork network)
         {
-            return network.IsAnonymous
+            return !network.HasUser
                 ? Client.ConnectAsync(network.Host, network.Port)
-                : Client.ConnectAsync(network.Host, network.Port, network.User.NickName, (network.User as IUser).UserName);
+                : Client.ConnectAsync(network.Host, network.Port, network.User.NickName, network.User.UserName);
         }
 
         /// <summary>
         /// Join a channel.
         /// </summary>
         /// <param name="channel">Channel object.</param>
-        public async Task Join(IChannel channel)
+        public virtual async Task Join(IChannel channel)
         {
             await Client.SendAsync(new JoinMessage(channel.Name));
             channels.Add(channel);
@@ -137,20 +135,20 @@ namespace UniversalIRC.RelayChat
         /// </summary>
         /// <param name="channel">Channel object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(IChannel channel, string message) => await Client.SendAsync(new PrivMsgMessage(channel.Name, message));
+        public Task PrivMsg(IChannel channel, string message) => Client.SendAsync(new PrivMsgMessage(channel.Name, message));
 
         /// <summary>
         /// Send message to user.
         /// </summary>
         /// <param name="user">User object.</param>
         /// <param name="message">Message content.</param>
-        public async Task PrivMsg(IUser user, string message) => await Client.SendAsync(new PrivMsgMessage(user.NickName, message));
+        public Task PrivMsg(IUser user, string message) => Client.SendAsync(new PrivMsgMessage(user.NickName, message));
 
         /// <summary>
         /// Disconnect from the server.
         /// </summary>
         /// <param name="message">Quit message.</param>
-        public async Task Quit(string message = null) => await Client.SendAsync(new QuitMessage(message));
+        public Task Quit(string message = null) => Client.SendAsync(new QuitMessage(message));
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
