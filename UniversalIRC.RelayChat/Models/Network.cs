@@ -1,4 +1,5 @@
 ﻿using System;
+
 using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat.Models

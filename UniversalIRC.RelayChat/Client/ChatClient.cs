@@ -77,7 +77,7 @@ namespace UniversalIRC.RelayChat.Client
         /// processing.
         /// </summary>
         /// <param name="data">Raw message.</param>
-        private async void DataReceived(string data)
+        private void DataReceived(string data)
         {
             if (string.IsNullOrWhiteSpace(data)) { return; }
 
