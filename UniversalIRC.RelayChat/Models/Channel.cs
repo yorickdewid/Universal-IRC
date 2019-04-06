@@ -9,6 +9,9 @@ namespace UniversalIRC.RelayChat.Models
     /// </summary>
     public class Channel : IChannel
     {
+        /// <summary>
+        /// Channel name.
+        /// </summary>
         public string Name { get; }
 
         public event MessageEventHandler<PrivMsgMessage> PrivMsg;

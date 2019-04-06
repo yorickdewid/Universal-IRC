@@ -103,7 +103,7 @@ namespace UniversalIRC.RelayChat.Connection
                     dataReceivedCallback?.Invoke(line);
                 }
             }
-            catch (Exception e) { } // TODO : Prevent Disposable exceptions
+            catch (Exception) { } // TODO : Prevent Disposable exceptions
             finally
             {
                 // Fire disconnected event

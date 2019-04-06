@@ -1,4 +1,5 @@
 ﻿using System;
+using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat
 {
@@ -17,5 +18,9 @@ namespace UniversalIRC.RelayChat
         bool HasUser { get; }
 
         IUser User { get; }
+
+        event MessageEventHandler<NoticeMessage> Notice;
+
+        void TriggerNotice(MessageReceivedEventArgs<NoticeMessage> args);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat.Models
 {
@@ -49,8 +50,9 @@ namespace UniversalIRC.RelayChat.Models
         /// </summary>
         public bool KeepAlive { get; set; } = true;
 
-        // TODO: Trigger this somewhere
-        public event EventHandler Notice;
+        public event MessageEventHandler<NoticeMessage> Notice;
+
+        public void TriggerNotice(MessageReceivedEventArgs<NoticeMessage> args) => Notice?.Invoke(args);
 
         /// <summary>
         /// Create a remote network instance.

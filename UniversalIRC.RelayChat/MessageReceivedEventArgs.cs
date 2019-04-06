@@ -4,16 +4,16 @@ using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat
 {
-    public delegate void MessageEventHandler<T>(MessageReceivedEventArgs<T> e)
-        where T : AbstractMessage;
+    public delegate void MessageEventHandler<TMessage>(MessageReceivedEventArgs<TMessage> e)
+        where TMessage : AbstractMessage;
 
-    public class MessageReceivedEventArgs<T> : EventArgs
-         where T : AbstractMessage
+    public class MessageReceivedEventArgs<TMessage> : EventArgs
+         where TMessage : AbstractMessage
     {
         /// <summary>
         /// Data received from the connection
         /// </summary>
-        public T Message { get; }
+        public TMessage Message { get; }
 
         /// <summary>
         /// Message source.
@@ -22,7 +22,7 @@ namespace UniversalIRC.RelayChat
 
         public MessageReceivedEventArgs(Message message)
         {
-            Message = Activator.CreateInstance(typeof(T), message) as T;
+            Message = Activator.CreateInstance(typeof(TMessage), message) as TMessage;
             Source = message.Prefix;
         }
     }

@@ -87,7 +87,7 @@ namespace UniversalIRC.RelayChat.Client
             {
                 // Respond with pong and keep the connection active
                 case Command.PING:
-                    SendAsync(new PongMessage(message.Trailing));
+                    SendAsync(new PongMessage(message.Trailing)).Wait();
                     break;
                 // Ignore pong
                 case Command.PONG:

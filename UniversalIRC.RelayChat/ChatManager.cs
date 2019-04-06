@@ -10,16 +10,48 @@ namespace UniversalIRC.RelayChat
 {
     public class ChatManager : IDisposable
     {
-        public IIRCClient Client { get; }
-
-        // List of cient joined channels
+        // List of channels joined by the client
         private readonly List<IChannel> channels = new List<IChannel>();
         // List of user query conversations
         //private readonly List<IUser> queryUsers = new List<IUser>();
 
+        /// <summary>
+        /// Connection client.
+        /// </summary>
+        public IIRCClient Client { get; }
+
+        /// <summary>
+        /// Current configured network.
+        /// </summary>
+        public INetwork Network { get; private set; }
+
+        /// <summary>
+        /// Active channels.
+        /// </summary>
+        public IEnumerable<IChannel> Channels { get => channels; }
+
+        public event EventHandler<IChannel> EnlistChannel;
+        public event EventHandler<IChannel> RemoveChannel;
+
+        /// <summary>
+        /// Create new chat manager instance.
+        /// </summary>
+        /// <param name="client">See <see cref="IIRCClient"/>.</param>
         public ChatManager(IIRCClient client)
         {
             Client = client;
+            RegisterMessageHandlers();
+        }
+
+        /// <summary>
+        /// Create new chat manager instance with network.
+        /// </summary>
+        /// <param name="client">See <see cref="IIRCClient"/>.</param>
+        /// <param name="network">See <see cref="INetwork"/>.</param>
+        public ChatManager(IIRCClient client, INetwork network)
+        {
+            Client = client;
+            Network = network;
             RegisterMessageHandlers();
         }
 
@@ -42,9 +74,10 @@ namespace UniversalIRC.RelayChat
             => channels.SingleOrDefault(s => string.Compare(s.Name, target, true) == 0);
 
         /// <summary>
-        /// Find channel/user an raise event.
+        /// Find channel/user an raise event. If no channel/user can be found the the 
+        /// incomming private message methode is called.
         /// </summary>
-        private void OnPrivMsg(MessageReceivedEventArgs<PrivMsgMessage> args)
+        protected virtual void OnPrivMsg(MessageReceivedEventArgs<PrivMsgMessage> args)
         {
             var channel = FindChannelOrDefault(args.Message.NickNameOrChannel);
             if (channel != null)
@@ -60,7 +93,7 @@ namespace UniversalIRC.RelayChat
         /// <summary>
         /// Find channel/user an raise event.
         /// </summary>
-        private void OnNotice(MessageReceivedEventArgs<NoticeMessage> args)
+        protected virtual void OnNotice(MessageReceivedEventArgs<NoticeMessage> args)
         {
             var channel = FindChannelOrDefault(args.Message.NickNameOrChannel);
             if (channel != null)
@@ -69,7 +102,7 @@ namespace UniversalIRC.RelayChat
             }
             else
             {
-                // TODO: Trigger EventHandler in a network
+                Network.TriggerNotice(args);
             }
         }
 
@@ -100,14 +133,26 @@ namespace UniversalIRC.RelayChat
         protected virtual void OnIncommingUserMessage(MessageReceivedEventArgs<PrivMsgMessage> args) { }
 
         /// <summary>
-        /// Connect to the IRC network.
+        /// Connect to the provided IRC network.
         /// </summary>
         /// <param name="network">Network settings.</param>
         public Task ConnectAsync(INetwork network)
         {
+            Network = network;
             return !network.HasUser
                 ? Client.ConnectAsync(network.Host, network.Port)
                 : Client.ConnectAsync(network.Host, network.Port, network.User.NickName, network.User.UserName);
+        }
+
+        /// <summary>
+        /// Connect to IRC network.
+        /// </summary>
+        public Task ConnectAsync()
+        {
+            if (Network == null) { throw new ArgumentNullException(nameof(Network)); }
+            return !Network.HasUser
+                ? Client.ConnectAsync(Network.Host, Network.Port)
+                : Client.ConnectAsync(Network.Host, Network.Port, Network.User.NickName, Network.User.UserName);
         }
 
         /// <summary>
@@ -118,6 +163,7 @@ namespace UniversalIRC.RelayChat
         {
             await Client.SendAsync(new JoinMessage(channel.Name));
             channels.Add(channel);
+            EnlistChannel?.Invoke(this, channel);
         }
 
         /// <summary>
@@ -128,6 +174,7 @@ namespace UniversalIRC.RelayChat
         {
             await Client.SendAsync(new PartMessage(channel.Name));
             channels.Remove(channel);
+            RemoveChannel?.Invoke(this, channel);
         }
 
         /// <summary>
