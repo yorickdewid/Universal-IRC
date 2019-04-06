@@ -51,8 +51,7 @@ namespace UniversalIRC.Services
                 }
             }
 
-            var activationHandler = GetActivationHandlers()
-                                                .FirstOrDefault(h => h.CanHandle(activationArgs));
+            var activationHandler = GetActivationHandlers().FirstOrDefault(h => h.CanHandle(activationArgs));
 
             if (activationHandler != null)
             {

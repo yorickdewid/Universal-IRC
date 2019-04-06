@@ -150,7 +150,7 @@
     <comment>Light theme text for Settings</comment>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>About this app</value>
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
@@ -184,5 +184,16 @@
   <data name="MasterDetails_Control.MasterHeader" xml:space="preserve">
     <value>Conversations</value>
     <comment>Master details header text</comment>
+  </data>
+  <data name="Settings_RepositoryLink.Content" xml:space="preserve">
+    <value>Github Repository</value>
+    <comment>Privacy Statement link content for Settings</comment>
+  </data>
+  <data name="Settings_RepositoryLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/yorickdewid/Universal-IRC</value>
+    <comment>Here is your Privacy Statement url for Settings</comment>
+  </data>
+  <data name="Settings_Copyright.Text" xml:space="preserve">
+    <value>© 2019 Yorick de Wid.</value>
   </data>
 </root>

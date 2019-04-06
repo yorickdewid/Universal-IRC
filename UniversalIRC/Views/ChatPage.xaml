@@ -15,7 +15,7 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="model:Chat">
+        <DataTemplate x:Key="ItemTemplate" x:DataType="model:ChatItem">
             <Grid Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -31,14 +31,17 @@
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock Style="{ThemeResource ListTitleStyle}" Text="{x:Bind Name}" />
-                    <TextBlock Style="{StaticResource ListSubTitleStyle}" Text="{x:Bind LastMessage}" />
+                    <TextBlock Style="{StaticResource ListSubTitleStyle}" Text="{x:Bind SubMessage}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="DetailsTemplate" x:Name="DetailsTemplate">
+        <DataTemplate
+            x:Key="DetailsTemplate"
+            x:Name="DetailsTemplate"
+            x:DataType="model:ChatItem">
             <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                <views:ChatControl ChatItem="{Binding}" />
+                <views:ChatControl ChatItem="{x:Bind}" />
             </Grid>
         </DataTemplate>
 
@@ -90,8 +93,8 @@
                         Click="Join_Click"
                         Icon="Add"
                         Label="Join" />
-                    <AppBarButton Icon="Filter" Label="Filter" />
-                    <AppBarButton Icon="Find" Label="Search" />
+                    <!--<AppBarButton Icon="Filter" Label="Filter" />
+                    <AppBarButton Icon="Find" Label="Search" />-->
                     <CommandBar.SecondaryCommands>
                         <AppBarButton
                             Click="Settings_Click"

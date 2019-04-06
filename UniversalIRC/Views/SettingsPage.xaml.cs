@@ -15,9 +15,10 @@ namespace UniversalIRC.Views
         public SettingsPage()
         {
             InitializeComponent();
+            Loaded += SettingsPage_Loaded;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void SettingsPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.Initialize();
         }

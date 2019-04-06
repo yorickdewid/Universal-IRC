@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using UniversalIRC.Core.Models;
 using UniversalIRC.ViewModels;
@@ -15,39 +15,61 @@ namespace UniversalIRC.Views
     {
         public ChatControlViewModel ViewModel { get; } = new ChatControlViewModel();
 
-        public Chat ChatItem
+        public ChatItem ChatItem
         {
-            get => GetValue(ChatItemProperty) as Chat;
+            get => GetValue(ChatItemProperty) as ChatItem;
             set => SetValue(ChatItemProperty, value);
         }
 
-        public static readonly DependencyProperty ChatItemProperty = DependencyProperty.Register("ChatItem", typeof(Chat), typeof(ChatControl), new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
+        public static readonly DependencyProperty ChatItemProperty = DependencyProperty.Register("ChatItem", typeof(ChatItem), typeof(ChatControl), new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
 
         public ChatControl()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Copy messages from chat item into the view model.
+        /// </summary>
+        private void InitializeChatControl(ChatItem oldItem, ChatItem newItem)
+        {
+            if (oldItem != null)
+            {
+                oldItem.OnIncommingMessage -= OnIncommingMessage;
+            }
+
+            ViewModel.MessageHistory.Clear();
+            foreach (var item in newItem.ChatHistory)
+            {
+                ViewModel.MessageHistory.Add(item);
+            }
+
+            // Subscribe to new incomming messages
+            newItem.OnIncommingMessage += OnIncommingMessage;
+        }
+
         private static void OnChatRoomItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ChatControl;
 
-            control.ViewModel.MessageHistory.Clear();
-            foreach (var item in control.ChatItem.ChatHistory)
-            {
-                control.ViewModel.MessageHistory.Add(item);
-            }
+            control.InitializeChatControl(e.OldValue as ChatItem, e.NewValue as ChatItem);
         }
 
-        private void SendMessage()
+        private void OnIncommingMessage(object s, ChatMessage message)
+        {
+            ViewModel.MessageHistory.Add(message);
+        }
+
+        private async Task SendMessage()
         {
             if (!string.IsNullOrEmpty(ViewModel.MessageText))
             {
-                ViewModel.MessageHistory.Add(new ChatMessage
-                {
-                    Sender = "Me",
-                    Message = ViewModel.MessageText,
-                });
+                var message = ViewModel.MessageText.Trim();
+
+                // TODO: Send message
+
+                await Task.CompletedTask;
+
                 ViewModel.MessageText = null;
             }
         }
@@ -55,19 +77,19 @@ namespace UniversalIRC.Views
         /// <summary>
         /// Trigger send message.
         /// </summary>
-        private void Send_btn_Click(object sender, RoutedEventArgs e)
+        private async void Send_btn_Click(object sender, RoutedEventArgs e)
         {
-            SendMessage();
+            await SendMessage();
         }
 
         /// <summary>
         /// Trigger send message.
         /// </summary>
-        private void Message_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
+        private async void Message_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                SendMessage();
+                await SendMessage();
                 e.Handled = true;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 
+using UniversalIRC.Core.Models;
 using UniversalIRC.Helpers;
 
 namespace UniversalIRC.ViewModels
@@ -52,6 +53,16 @@ namespace UniversalIRC.ViewModels
         {
             get => _rememberCredentials;
             set => Set(ref _rememberCredentials, value);
+        }
+
+        public Network NetworkModel
+        {
+            get
+            {
+                return new Network(name: Host,
+                    host: Host.Trim(),
+                    account: new ChatUserAccount(Nickname.Trim()));
+            }
         }
     }
 }

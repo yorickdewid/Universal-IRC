@@ -13,6 +13,9 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBox Header="Channel" PlaceholderText="#" />
+        <TextBox
+            Header="Channel"
+            PlaceholderText="#"
+            Text="{x:Bind ViewModel.Channel, Mode=TwoWay}" />
     </StackPanel>
 </ContentDialog>

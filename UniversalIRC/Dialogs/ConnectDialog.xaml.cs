@@ -3,6 +3,7 @@
 using UniversalIRC.ViewModels;
 
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UniversalIRC.Dialogs
@@ -15,6 +16,7 @@ namespace UniversalIRC.Dialogs
 
         public ConnectDialog()
         {
+            RequestedTheme = (Window.Current.Content as FrameworkElement).RequestedTheme;
             InitializeComponent();
         }
 

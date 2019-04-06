@@ -119,20 +119,23 @@
     <Compile Include="Dialogs\JoinChannelDialog.xaml.cs">
       <DependentUpon>JoinChannelDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EventHandlers\OnBackgroundEnteringEventArgs.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
-    <Compile Include="Helpers\NetworkModelConverter.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Extensions\SettingsStorageExtensions.cs" />
+    <Compile Include="Models\SuspensionState.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
-    <Compile Include="Services\RelayChatService.cs" />
+    <Compile Include="Services\SuspendAndResumeService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\ChatControlViewModel.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\ConnectDialogViewModel.cs" />
+    <Compile Include="ViewModels\JoinChannelDialogViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>

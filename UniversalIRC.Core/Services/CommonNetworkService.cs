@@ -7,14 +7,17 @@ using UniversalIRC.Core.Models;
 
 namespace UniversalIRC.Core.Services
 {
+    /// <summary>
+    /// Popular IRC networks, which can accelerate user interaction.
+    /// </summary>
     public static class CommonNetworkService
     {
         private static IEnumerable<Network> AllNetworks()
         {
             return new Collection<Network>
             {
-                new Network("FreeNode", "irc.freenode.net", "chat.freenode.net"),
-                new Network("IRCnet", "open.ircnet.net"),
+                new Network("FreeNode", "irc.freenode.net", null),
+                new Network("IRCnet", "open.ircnet.net", null),
             };
         }
 

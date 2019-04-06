@@ -6,6 +6,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:UniversalIRC.Core.Models"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -52,6 +53,11 @@
                             ItemsUpdatingScrollMode="KeepLastItemInView" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:ChatMessage">
+                        <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Padding" Value="10,5,10,5" />

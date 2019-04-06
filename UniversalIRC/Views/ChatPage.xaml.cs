@@ -1,8 +1,7 @@
 ﻿using System;
 
-using UniversalIRC.Core.Models;
+using UniversalIRC.Core.Helpers;
 using UniversalIRC.Dialogs;
-using UniversalIRC.Helpers;
 using UniversalIRC.Services;
 using UniversalIRC.ViewModels;
 
@@ -18,37 +17,32 @@ namespace UniversalIRC.Views
         public ChatPage()
         {
             InitializeComponent();
-            Loaded += MasterDetailPage_Loaded;
+            Loaded += ChatPage_Loaded;
         }
 
-        private async void MasterDetailPage_Loaded(object sender, RoutedEventArgs e)
+        private async void ChatPage_Loaded(object sender, RoutedEventArgs e)
         {
             var dialog = new ConnectDialog();
             dialog.ConnectClick += Dialog_ConnectClick;
 
-            // Present connect dialog to user
-            await dialog.ShowAsync();
+            // Register a detach handler for all operations on suspension
+            Singleton<SuspendAndResumeService>.Instance.OnSuspending += OnSuspending;
 
-            await ViewModel.LoadDataAsync(MasterDetailsViewControl.ViewState);
+            await dialog.ShowAsync();
         }
 
-        private void Dialog_ConnectClick(ConnectDialog sender, ConnectDialogViewModel viewModel)
+        private void OnSuspending(object sender, EventArgs e)
+        {
+            ViewModel.DisconnectAllNetworks();
+        }
+
+        private async void Dialog_ConnectClick(ConnectDialog sender, ConnectDialogViewModel viewModel)
         {
             ChatPage_ConnectLoader.IsLoading = true;
-            var dispatcherTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(2),
-            };
-            dispatcherTimer.Tick += (object s, object e) =>
-            {
-                dispatcherTimer.Stop();
 
-                var network = NetworkModelConverter.AsNetworkModel(viewModel);
-                ViewModel.ContactItems.Add(network);
+            await ViewModel.ConnectNetworkAsync(viewModel.NetworkModel);
 
-                ChatPage_ConnectLoader.IsLoading = false;
-            };
-            dispatcherTimer.Start();
+            ChatPage_ConnectLoader.IsLoading = false;
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
@@ -65,6 +59,11 @@ namespace UniversalIRC.Views
         {
             var dialog = new JoinChannelDialog();
             await dialog.ShowAsync();
+
+            if (!string.IsNullOrEmpty(dialog.ViewModel.Channel))
+            {
+                await ViewModel.JoinChannelAsync(dialog.ViewModel.ChannelModel);
+            }
         }
     }
 }

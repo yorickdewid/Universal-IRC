@@ -1,45 +1,90 @@
-﻿using System;
+﻿using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.Toolkit.Uwp.UI.Controls;
-
+using UniversalIRC.Helpers;
 using UniversalIRC.Core.Models;
 using UniversalIRC.Core.Services;
-using UniversalIRC.Helpers;
+using UniversalIRC.Extensions;
 
 namespace UniversalIRC.ViewModels
 {
     public class ChatViewModel : Observable
     {
-        private Chat _selected;
+        private ChatItem _selected;
 
-        public Chat Selected
+        public ChatItem Selected
         {
-            get { return _selected; }
-            set { Set(ref _selected, value); }
+            get => _selected;
+            set => Set(ref _selected, value);
         }
 
-        public ObservableCollection<Chat> ContactItems { get; private set; } = new ObservableCollection<Chat>();
+        public ObservableCollection<ChatItem> ContactItems { get; private set; } = new ObservableCollection<ChatItem>();
 
-        public async Task LoadDataAsync(MasterDetailsViewState viewState)
+        public void AddChatItem(ChatItem chat)
         {
-            ContactItems.Clear();
+            ContactItems.Add(chat);
+        }
 
-            await Task.CompletedTask;
+        /// <summary>
+        /// Create a new chat service and hook the events.
+        /// </summary>
+        /// <returns>See <see cref="ChatService"/>.</returns>
+        private ChatService InitializeChatService()
+        {
+            var service = new ChatService();
+            service.OnRemoveChannel += RemoveChannelNotification;
+            return service;
+        }
 
-            //var data = await SampleDataService.GetSampleModelDataAsync();
+        /// <summary>
+        /// Prepare the network object and then connect to the network.
+        /// </summary>
+        /// <param name="network">Network object containing connection properties.</param>
+        public async Task ConnectNetworkAsync(Network network)
+        {
+            ContactItems.Add(network);
+            Selected = network;
 
-            //foreach (var item in data)
-            //{
-            //    ContactItems.Add(item);
-            //}
+            network.ClearChatHistory();
+            var service = InitializeChatService();
+            await service.ConnectAsync(network);
+            network.Service = service;
+        }
 
-            //if (viewState == MasterDetailsViewState.Both)
-            //{
-            //    Selected = ContactItems.First();
-            //}
+        public void DisconnectAllNetworks()
+        {
+            foreach (var network in ContactItems.WhereAllAs<Network, ChatItem>())
+            {
+                network.Service.Close();
+            }
+        }
+
+        private void RemoveChannelNotification(object sender, Channel channel)
+        {
+            var _channel = ContactItems.FirstOrDefault(s => s.Name == channel.Name);
+            if (_channel != null)
+            {
+                ContactItems.Remove(_channel);
+            }
+        }
+
+        /// <summary>
+        /// Join an network channel.
+        /// </summary>
+        /// <param name="channel">Channel object.</param>
+        public async Task JoinChannelAsync(Channel channel)
+        {
+            ContactItems.Add(channel);
+            Selected = channel;
+
+            var _network = ContactItems.WhereAllAs<Network, ChatItem>().First();
+            if (_network != null)
+            {
+                await _network.Service.Join(channel);
+            }
         }
     }
 }
