@@ -122,10 +122,7 @@ namespace UniversalIRC.RelayChat
         /// Find channel/user an raise event.
         /// </summary>
         protected virtual void OnQuit(MessageReceivedEventArgs<QuitMessage> args)
-        {
-            // TODO: Find corresponding channel
-            channels.ForEach(c => c.TriggerQuit(args));
-        }
+            => channels.ForEach(c => c.TriggerQuit(args));
 
         /// <summary>
         /// Override to handle incomming private user messages.

@@ -13,6 +13,11 @@ namespace UniversalIRC.RelayChat
         /// </summary>
         string Name { get; }
 
+        /// <summary>
+        /// Channel topic.
+        /// </summary>
+        string Topic { get; set; }
+
         event MessageEventHandler<PrivMsgMessage> PrivMsg;
         event MessageEventHandler<NoticeMessage> Notice;
         event MessageEventHandler<JoinMessage> Join;

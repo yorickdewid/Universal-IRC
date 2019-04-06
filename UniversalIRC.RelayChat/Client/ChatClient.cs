@@ -114,6 +114,8 @@ namespace UniversalIRC.RelayChat.Client
                     break;
                 case Command.NICK:
                     break;
+                case Command.MODE:
+                    break;
 
                     // FUTURE: Add new commands down here
             }
@@ -123,7 +125,7 @@ namespace UniversalIRC.RelayChat.Client
         /// Send a message to IRC network.
         /// </summary>
         /// <param name="message">An implementation of AbstractMessage.</param>
-        public async Task SendAsync(AbstractMessage messageObject)
+        public Task SendAsync(AbstractMessage messageObject)
         {
             var data = messageObject.Message.ToString();
             if (!data.EndsWith(crlf))
@@ -131,7 +133,7 @@ namespace UniversalIRC.RelayChat.Client
                 data += crlf;
             }
 
-            await Connection.SendAsync(data);
+            return Connection.SendAsync(data);
         }
 
         /// <summary>
