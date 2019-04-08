@@ -33,10 +33,10 @@
             Header="Nickname"
             PlaceholderText="Nickname"
             Text="{x:Bind ViewModel.Nickname, Mode=TwoWay}" />
-        <PasswordBox
+        <!--<PasswordBox
             Header="Password (optional)"
             Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
-            PlaceholderText="Password" />
+            PlaceholderText="Password" />-->
         <!--<CheckBox Content="Remember me" IsChecked="True" />-->
     </StackPanel>
 </ContentDialog>
