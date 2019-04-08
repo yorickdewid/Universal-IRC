@@ -17,14 +17,11 @@ namespace UniversalIRC.Core.Models
 
         public override void ClearChatHistory() => _noticeScrollback.Clear();
 
-        public override void AddChatMessage(ChatMessage message) => _noticeScrollback.Add(message);
-
         public INetwork RelayModel { get; }
 
-        // TODO: Is never disposed
-        public ChatService Service { get; set; }
-
         public override event EventHandler<ChatMessage> OnIncommingMessage;
+
+        public ChatUserAccount Account { get; }
 
         /// <summary>
         /// Create new network instance.
@@ -35,6 +32,7 @@ namespace UniversalIRC.Core.Models
         public Network(string name, string host, ChatUserAccount account)
             : base(name, (char)0xe968)
         {
+            Account = account;
             RelayModel = new RelayChat.Models.Network(name: name, port: 6667, host: host, user: account);
             RelayModel.Notice += RelayModelNotice;
         }
@@ -46,22 +44,25 @@ namespace UniversalIRC.Core.Models
         /// <param name="host">Network server host.</param>
         /// <param name="account">Network user.</param>
         /// <param name="chatMessages">Initialize chat with messages.</param>
-        public Network(string name, string host, ChatUserAccount account,  IEnumerable<ChatMessage> chatMessages)
+        public Network(string name, string host, ChatUserAccount account, IEnumerable<ChatMessage> chatMessages)
             : this(name: name, host: host, account: account)
         {
             _noticeScrollback = new Collection<ChatMessage>(chatMessages.ToList());
         }
 
+        public override void AddChatMessage(ChatMessage message)
+        {
+            OnIncommingMessage?.Invoke(this, message);
+            _noticeScrollback.Add(message);
+        }
+
         private void RelayModelNotice(MessageReceivedEventArgs<RelayChat.Protocol.NoticeMessage> e)
         {
-            var chatMessage = new ChatMessage
+            AddChatMessage(new ChatMessage
             {
                 Sender = e.Source.Name,
                 Message = e.Message.TextMessage,
-            };
-
-            OnIncommingMessage?.Invoke(this, chatMessage);
-            _noticeScrollback.Add(chatMessage);
+            });
         }
 
         public override string ToString()

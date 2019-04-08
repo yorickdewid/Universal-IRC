@@ -13,8 +13,6 @@ namespace UniversalIRC.Core.Models
 
         public override void ClearChatHistory() => _messageScrollback.Clear();
 
-        public override void AddChatMessage(ChatMessage message) => _messageScrollback.Add(message);
-
         public override event EventHandler<ChatMessage> OnIncommingMessage;
 
         /// <summary>
@@ -35,6 +33,12 @@ namespace UniversalIRC.Core.Models
             : this(name: name)
         {
             _messageScrollback = new Collection<ChatMessage>(chatMessages.ToList());
+        }
+
+        public override void AddChatMessage(ChatMessage message)
+        {
+            OnIncommingMessage?.Invoke(this, message);
+            _messageScrollback.Add(message);
         }
     }
 }

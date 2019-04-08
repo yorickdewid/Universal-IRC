@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
+using UniversalIRC.Core.Services;
 
 namespace UniversalIRC.Core.Models
 {
@@ -20,6 +21,9 @@ namespace UniversalIRC.Core.Models
         /// Subscript to name, can be last message in chat.
         /// </summary>
         public string SubMessage { get; }
+
+        // TODO: Is never disposed
+        public ChatService Service { get; set; } // TODO: remove set from public
 
         /// <summary>
         /// History of chat messages.

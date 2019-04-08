@@ -23,6 +23,11 @@ namespace UniversalIRC.RelayChat.Models
         /// </summary>
         public string Topic { get; set; }
 
+        /// <summary>
+        /// Network for this channel.
+        /// </summary>
+        public INetwork Network { get; set; }
+
         public event MessageEventHandler<PrivMsgMessage> PrivMsg;
         public event MessageEventHandler<NoticeMessage> Notice;
         public event MessageEventHandler<JoinMessage> Join;

@@ -18,6 +18,11 @@ namespace UniversalIRC.RelayChat
         /// </summary>
         string Topic { get; set; }
 
+        /// <summary>
+        /// Network for this channel.
+        /// </summary>
+        INetwork Network { get; }
+
         event MessageEventHandler<PrivMsgMessage> PrivMsg;
         event MessageEventHandler<NoticeMessage> Notice;
         event MessageEventHandler<JoinMessage> Join;

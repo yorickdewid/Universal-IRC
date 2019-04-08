@@ -22,6 +22,8 @@ namespace UniversalIRC.Core.Services
         public event EventHandler<Channel> OnAddChannel;
         public event EventHandler<Channel> OnRemoveChannel;
 
+        public Network CurrentNetwork { get; private set; }
+
         public ChatService()
             : this(new ChatClient())
         {
@@ -73,6 +75,7 @@ namespace UniversalIRC.Core.Services
         /// <param name="network">Network settings.</param>
         public Task ConnectAsync(Network network)
         {
+            CurrentNetwork = network;
             return chatManager.ConnectAsync(network.RelayModel);
         }
 
@@ -83,6 +86,16 @@ namespace UniversalIRC.Core.Services
         public Task Join(Channel channel)
         {
             return chatManager.Join(channel.RelayModel);
+        }
+
+        /// <summary>
+        /// Send message to channel.
+        /// </summary>
+        /// <param name="channel">Channel object.</param>
+        /// <param name="message">Message content.</param>
+        public Task PrivMsg(Channel channel, string message)
+        {
+            return chatManager.PrivMsg(channel.RelayModel, message);
         }
     }
 }

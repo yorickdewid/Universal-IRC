@@ -17,7 +17,7 @@ namespace UniversalIRC.Core.Models
         /// <summary>
         /// Message receiving time.
         /// </summary>
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
 
         public override string ToString()
         {

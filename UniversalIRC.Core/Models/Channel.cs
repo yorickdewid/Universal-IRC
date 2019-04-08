@@ -18,8 +18,6 @@ namespace UniversalIRC.Core.Models
 
         public override void ClearChatHistory() => _messageScrollback.Clear();
 
-        public override void AddChatMessage(ChatMessage message) => _messageScrollback.Add(message);
-
         public IChannel RelayModel { get; }
 
         /// <summary>
@@ -47,39 +45,36 @@ namespace UniversalIRC.Core.Models
             _messageScrollback = new Collection<ChatMessage>(chatMessages.ToList());
         }
 
+        public override void AddChatMessage(ChatMessage message)
+        {
+            OnIncommingMessage?.Invoke(this, message);
+            _messageScrollback.Add(message);
+        }
+
         private void RelayModelPrivMsg(MessageReceivedEventArgs<RelayChat.Protocol.PrivMsgMessage> e)
         {
-            var chatMessage = new ChatMessage
+            AddChatMessage(new ChatMessage
             {
                 Sender = e.Source.Name,
                 Message = e.Message.TextMessage,
-            };
-
-            OnIncommingMessage?.Invoke(this, chatMessage);
-            _messageScrollback.Add(chatMessage);
+            });
         }
 
         private void RelayModelNotice(MessageReceivedEventArgs<RelayChat.Protocol.NoticeMessage> e)
         {
-            var chatMessage = new ChatMessage
+            AddChatMessage(new ChatMessage
             {
                 Sender = e.Source.Name,
                 Message = e.Message.TextMessage,
-            };
-
-            OnIncommingMessage?.Invoke(this, chatMessage);
-            _messageScrollback.Add(chatMessage);
+            });
         }
 
         private void RelayModelJoin(MessageReceivedEventArgs<RelayChat.Protocol.JoinMessage> e)
         {
-            var chatMessage = new ChatMessage
+            AddChatMessage(new ChatMessage
             {
                 Message = $"{e.Source.Name} has joined",
-            };
-
-            OnIncommingMessage?.Invoke(this, chatMessage);
-            _messageScrollback.Add(chatMessage);
+            });
         }
 
         private void RelayModelQuit(MessageReceivedEventArgs<RelayChat.Protocol.QuitMessage> e)
