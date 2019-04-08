@@ -1,6 +1,5 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -48,10 +47,19 @@ namespace UniversalIRC.ViewModels
             ContactItems.Add(network);
             Selected = network;
 
-            network.ClearChatHistory();
-            var service = InitializeChatService();
-            await service.ConnectAsync(network);
-            network.Service = service;
+            try
+            {
+                network.ClearChatHistory();
+                network.Service = InitializeChatService();
+                await network.Service.ConnectAsync(network);
+            }
+            catch (Exception e)
+            {
+                network.AddChatMessage(new ChatMessage
+                {
+                    Message = e.Message
+                });
+            }
         }
 
         public void DisconnectAllNetworks()
@@ -83,7 +91,18 @@ namespace UniversalIRC.ViewModels
             var _network = ContactItems.WhereAllAs<Network, ChatItem>().First();
             if (_network != null)
             {
-                await _network.Service.Join(channel);
+                try
+                {
+                    channel.Service = _network.Service;
+                    await channel.Service.Join(channel);
+                }
+                catch (Exception e)
+                {
+                    channel.AddChatMessage(new ChatMessage
+                    {
+                        Message = e.Message
+                    });
+                }
             }
         }
     }

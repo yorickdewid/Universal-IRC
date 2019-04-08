@@ -40,9 +40,14 @@ namespace UniversalIRC.Views
         {
             ChatPage_ConnectLoader.IsLoading = true;
 
-            await ViewModel.ConnectNetworkAsync(viewModel.NetworkModel);
-
-            ChatPage_ConnectLoader.IsLoading = false;
+            try
+            {
+                await ViewModel.ConnectNetworkAsync(viewModel.NetworkModel);
+            }
+            finally
+            {
+                ChatPage_ConnectLoader.IsLoading = false;
+            }
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

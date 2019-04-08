@@ -60,6 +60,7 @@ namespace UniversalIRC.Views
             ViewModel.MessageHistory.Add(message);
         }
 
+        // TODO: Move into VM
         private async Task SendMessage()
         {
             if (!string.IsNullOrEmpty(ViewModel.MessageText))
@@ -67,8 +68,13 @@ namespace UniversalIRC.Views
                 var message = ViewModel.MessageText.Trim();
 
                 // TODO: Send message
+                await ChatItem.Service.PrivMsg(ChatItem as Channel, message);
 
-                await Task.CompletedTask;
+                ChatItem.AddChatMessage(new ChatMessage
+                {
+                    Sender = ChatItem.Service.CurrentNetwork.Account.NickName,
+                    Message = message,
+                });
 
                 ViewModel.MessageText = null;
             }

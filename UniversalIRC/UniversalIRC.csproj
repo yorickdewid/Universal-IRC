@@ -113,9 +113,6 @@
     <Compile Include="Dialogs\ConnectDialog.xaml.cs">
       <DependentUpon>ConnectDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\FirstRunDialog.xaml.cs">
-      <DependentUpon>FirstRunDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\JoinChannelDialog.xaml.cs">
       <DependentUpon>JoinChannelDialog.xaml</DependentUpon>
     </Compile>
@@ -155,10 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\ConnectDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\FirstRunDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
