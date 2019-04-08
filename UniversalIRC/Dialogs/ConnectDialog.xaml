@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Connect to Network"
+    IsPrimaryButtonEnabled="{x:Bind ViewModel.CanConnect, Mode=OneWay}"
     PrimaryButtonClick="ContentDialog_ConnectClick"
     PrimaryButtonText="Connect"
     SecondaryButtonText="Cancel"
@@ -19,8 +20,9 @@
             <TextBox
                 Grid.Column="0"
                 Header="Server"
+                IsSpellCheckEnabled="False"
                 PlaceholderText="Server"
-                Text="{x:Bind ViewModel.Host, Mode=TwoWay}" />
+                Text="{x:Bind ViewModel.Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox
                 Grid.Column="1"
                 Margin="10,0,0,0"
@@ -32,7 +34,7 @@
             Margin="0,10,0,0"
             Header="Nickname"
             PlaceholderText="Nickname"
-            Text="{x:Bind ViewModel.Nickname, Mode=TwoWay}" />
+            Text="{x:Bind ViewModel.Nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <!--<PasswordBox
             Header="Password (optional)"
             Password="{x:Bind ViewModel.Password, Mode=TwoWay}"

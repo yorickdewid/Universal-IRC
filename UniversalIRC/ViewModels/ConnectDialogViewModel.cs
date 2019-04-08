@@ -12,7 +12,11 @@ namespace UniversalIRC.ViewModels
         public string Host
         {
             get => _host;
-            set => Set(ref _host, value);
+            set
+            {
+                Set(ref _host, value);
+                OnPropertyChanged(nameof(CanConnect));
+            }
         }
 
         private short _port = 6667;
@@ -20,7 +24,11 @@ namespace UniversalIRC.ViewModels
         public short Port
         {
             get => _port;
-            set => Set(ref _port, value);
+            set
+            {
+                Set(ref _port, value);
+                OnPropertyChanged(nameof(CanConnect));
+            }
         }
 
         private bool _useSsl = true;
@@ -36,7 +44,11 @@ namespace UniversalIRC.ViewModels
         public string Nickname
         {
             get => _nickname;
-            set => Set(ref _nickname, value);
+            set
+            {
+                Set(ref _nickname, value);
+                OnPropertyChanged(nameof(CanConnect));
+            }
         }
 
         private string _password;
@@ -53,6 +65,16 @@ namespace UniversalIRC.ViewModels
         {
             get => _rememberCredentials;
             set => Set(ref _rememberCredentials, value);
+        }
+
+        public bool CanConnect
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(Host)
+                       && !string.IsNullOrWhiteSpace(Nickname)
+                       && Port != 0;
+            }
         }
 
         public Network NetworkModel
