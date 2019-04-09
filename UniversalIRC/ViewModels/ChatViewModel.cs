@@ -27,11 +27,7 @@ namespace UniversalIRC.ViewModels
             ContactItems.Add(chat);
         }
 
-        /// <summary>
-        /// Create a new chat service and hook the events.
-        /// </summary>
-        /// <returns>See <see cref="ChatService"/>.</returns>
-        private ChatService InitializeChatService()
+        public ChatViewModel()
         {
             CommandParserService.SubscribeCommand("join", async (parameters) =>
             {
@@ -43,9 +39,17 @@ namespace UniversalIRC.ViewModels
                 if (parameters.Length < 2) { return; }
                 await PartChannelAsync(parameters[1]);
             });
+        }
 
+        /// <summary>
+        /// Create a new chat service and hook the events.
+        /// </summary>
+        /// <returns>See <see cref="ChatService"/>.</returns>
+        private ChatService InitializeChatService()
+        {
             var service = new ChatService();
             service.OnRemoveChannel += ChannelRemoved;
+            service.OnDisconnected += NetworkDisconnected;
             return service;
         }
 
@@ -93,6 +97,19 @@ namespace UniversalIRC.ViewModels
             if (_channel != null)
             {
                 ContactItems.Remove(_channel);
+            }
+        }
+
+        private void NetworkDisconnected(object sender, EventArgs e)
+        {
+            // TODO: Network should be known beforehand
+            var _network = ContactItems.WhereAllAs<Network, ChatItem>().First();
+            if (_network != null)
+            {
+                _network.AddChatMessage(new ChatMessage
+                {
+                    Message = "Network disconnected",
+                });
             }
         }
 

@@ -19,6 +19,7 @@ namespace UniversalIRC.Core.Services
     {
         private readonly ChatManager chatManager;
 
+        public event EventHandler OnDisconnected;
         public event EventHandler<Channel> OnAddChannel;
         public event EventHandler<Channel> OnRemoveChannel;
 
@@ -48,7 +49,7 @@ namespace UniversalIRC.Core.Services
 
         private void Connection_Disconnected(object sender, EventArgs e)
         {
-            //
+            OnDisconnected?.Invoke(this, EventArgs.Empty);
         }
 
         private void Connection_Connected(object sender, EventArgs e)
