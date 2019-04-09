@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio" IgnorableNamespaces="uap mp genTemplate">
-  <Identity Name="45509C35-FC77-4EC1-91EA-0DD7882EB2DD" Publisher="CN=yoric" Version="0.9.0.0" />
-  <mp:PhoneIdentity PhoneProductId="45509C35-FC77-4EC1-91EA-0DD7882EB2DD" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="40734YorickdeWid.UniversalIRC" Publisher="CN=E99B6CAB-C16F-4CC4-AA69-E6A984F0B4EA" Version="0.9.15.0" />
+  <mp:PhoneIdentity PhoneProductId="0df27985-a8c6-46f3-b2d7-c7e2e380888e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>UniversalIRC</DisplayName>
+    <DisplayName>Universal IRC</DisplayName>
     <PublisherDisplayName>Yorick de Wid</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
