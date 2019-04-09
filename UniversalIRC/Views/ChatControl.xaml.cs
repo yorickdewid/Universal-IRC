@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using UniversalIRC.Core.Models;
+using UniversalIRC.Core.Services;
 using UniversalIRC.ViewModels;
 
 using Windows.System;
@@ -67,14 +68,16 @@ namespace UniversalIRC.Views
             {
                 var message = ViewModel.MessageText.Trim();
 
-                // TODO: Send message
-                await ChatItem.Service.PrivMsg(ChatItem as Channel, message);
-
-                ChatItem.AddChatMessage(new ChatMessage
+                if (!CommandParserService.Parse(message))
                 {
-                    Sender = ChatItem.Service.CurrentNetwork.Account.NickName,
-                    Message = message,
-                });
+                    await ChatItem.Service.PrivMsg(ChatItem as Channel, message);
+
+                    ChatItem.AddChatMessage(new ChatMessage
+                    {
+                        Sender = ChatItem.Service.CurrentNetwork.Account.NickName,
+                        Message = message,
+                    });
+                }
 
                 ViewModel.MessageText = null;
             }
