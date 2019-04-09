@@ -89,6 +89,15 @@ namespace UniversalIRC.Core.Services
         }
 
         /// <summary>
+        /// Part a channel.
+        /// </summary>
+        /// <param name="channel">Channel object.</param>
+        public Task Part(Channel channel)
+        {
+            return chatManager.Part(channel.RelayModel);
+        }
+
+        /// <summary>
         /// Send message to channel.
         /// </summary>
         /// <param name="channel">Channel object.</param>

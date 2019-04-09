@@ -33,8 +33,19 @@ namespace UniversalIRC.ViewModels
         /// <returns>See <see cref="ChatService"/>.</returns>
         private ChatService InitializeChatService()
         {
+            CommandParserService.SubscribeCommand("join", async (parameters) =>
+            {
+                if (parameters.Length < 2) { return; }
+                await JoinChannelAsync(new Channel(parameters[1]));
+            });
+            CommandParserService.SubscribeCommand("part", async (parameters) =>
+            {
+                if (parameters.Length < 2) { return; }
+                await PartChannelAsync(parameters[1]);
+            });
+
             var service = new ChatService();
-            service.OnRemoveChannel += RemoveChannelNotification;
+            service.OnRemoveChannel += ChannelRemoved;
             return service;
         }
 
@@ -70,7 +81,13 @@ namespace UniversalIRC.ViewModels
             }
         }
 
-        private void RemoveChannelNotification(object sender, Channel channel)
+        /// <summary>
+        /// The channel was removed from the chat service and the view should
+        /// reflect that.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="channel"></param>
+        private void ChannelRemoved(object sender, Channel channel)
         {
             var _channel = ContactItems.FirstOrDefault(s => s.Name == channel.Name);
             if (_channel != null)
@@ -88,6 +105,7 @@ namespace UniversalIRC.ViewModels
             ContactItems.Add(channel);
             Selected = channel;
 
+            // TODO: Network should be known beforehand
             var _network = ContactItems.WhereAllAs<Network, ChatItem>().First();
             if (_network != null)
             {
@@ -104,6 +122,22 @@ namespace UniversalIRC.ViewModels
                     });
                 }
             }
+        }
+
+        /// <summary>
+        /// Part an network channel.
+        /// </summary>
+        /// <param name="channel">Channel name.</param>
+        public async Task PartChannelAsync(string channelName)
+        {
+            var _channel = ContactItems.FirstOrDefault(s => s.Name == channelName);
+            if (_channel == null) { return; }
+
+            try
+            {
+                await _channel.Service.Part(_channel as Channel);
+            }
+            catch (Exception) { }
         }
     }
 }

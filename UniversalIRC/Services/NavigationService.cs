@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UniversalIRC.Services
 {
-    public static class NavigationService
+    internal static class NavigationService
     {
         public static event NavigatedEventHandler Navigated;
 
