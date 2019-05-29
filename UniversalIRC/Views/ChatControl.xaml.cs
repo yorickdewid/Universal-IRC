@@ -70,7 +70,11 @@ namespace UniversalIRC.Views
 
                 if (!CommandParserService.Parse(message))
                 {
-                    await ChatItem.Service.PrivMsg(ChatItem as Channel, message);
+                    // TODO: What to send to Network et al ..?
+                    if (ChatItem is Channel)
+                    {
+                        await ChatItem.Service.PrivMsg(ChatItem as Channel, message);
+                    }
 
                     ChatItem.AddChatMessage(new ChatMessage
                     {
@@ -86,10 +90,7 @@ namespace UniversalIRC.Views
         /// <summary>
         /// Trigger send message.
         /// </summary>
-        private async void Send_btn_Click(object sender, RoutedEventArgs e)
-        {
-            await SendMessage();
-        }
+        private async void Send_btn_Click(object sender, RoutedEventArgs e) => await SendMessage();
 
         /// <summary>
         /// Trigger send message.
