@@ -77,6 +77,9 @@ namespace UniversalIRC.ViewModels
             }
         }
 
+        /// <summary>
+        /// Disconnect from all networks.
+        /// </summary>
         public void DisconnectAllNetworks()
         {
             foreach (var network in ContactItems.WhereAllAs<Network, ChatItem>())

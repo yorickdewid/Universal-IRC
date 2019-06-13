@@ -6,7 +6,7 @@ namespace UniversalIRC.Core.Services
 {
     public static class CommandParserService
     {
-        public class Command
+        public sealed class Command
         {
             public string Name { get; set; }
             public List<Action<string[]>> Actions { get; set; }

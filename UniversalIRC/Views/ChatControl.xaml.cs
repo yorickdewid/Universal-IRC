@@ -22,8 +22,14 @@ namespace UniversalIRC.Views
             set => SetValue(ChatItemProperty, value);
         }
 
-        public static readonly DependencyProperty ChatItemProperty = DependencyProperty.Register("ChatItem", typeof(ChatItem), typeof(ChatControl), new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
+        public static readonly DependencyProperty ChatItemProperty = DependencyProperty.Register("ChatItem",
+            typeof(ChatItem),
+            typeof(ChatControl),
+            new PropertyMetadata(null, OnChatRoomItemPropertyChanged));
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
         public ChatControl()
         {
             InitializeComponent();
