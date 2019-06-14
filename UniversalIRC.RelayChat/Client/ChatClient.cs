@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
 
 using UniversalIRC.RelayChat.Connection;
+using UniversalIRC.RelayChat.Extensions;
 using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat.Client
 {
     public class ChatClient : IIRCClient
     {
-        private const string crlf = "\r\n";
-
         /// <summary>
         /// Get current connection.
         /// </summary>
@@ -126,15 +125,7 @@ namespace UniversalIRC.RelayChat.Client
         /// </summary>
         /// <param name="message">An implementation of AbstractMessage.</param>
         public Task SendAsync(AbstractMessage messageObject)
-        {
-            var data = messageObject.Message.ToString();
-            if (!data.EndsWith(crlf))
-            {
-                data += crlf;
-            }
-
-            return Connection.SendAsync(data);
-        }
+            => Connection.SendAsync(messageObject.Message.ToString().EnsureCRLF());
 
         /// <summary>
         /// Attempt to quit the network properly.

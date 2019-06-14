@@ -8,7 +8,7 @@ namespace UniversalIRC.RelayChat.Connection
     public delegate void DataReceivedCallback(string data);
 
     /// <summary>
-    /// Created a TCP connection via the TcpClient interface.
+    /// Creates TCP connection via the TcpClient interface.
     /// </summary>
     public class TcpClientConnection : IConnection
     {
@@ -32,10 +32,17 @@ namespace UniversalIRC.RelayChat.Connection
 
         private readonly DataReceivedCallback dataReceivedCallback;
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
         public TcpClientConnection()
         {
         }
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
+        /// <param name="dataReceivedCallback">Registered callback for incomming data.</param>
         public TcpClientConnection(DataReceivedCallback dataReceivedCallback)
         {
             this.dataReceivedCallback = dataReceivedCallback;

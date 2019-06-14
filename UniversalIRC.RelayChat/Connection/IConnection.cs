@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace UniversalIRC.RelayChat.Connection
 {
+    /// <summary>
+    /// Connection interface.
+    /// </summary>
     public interface IConnection : IDisposable
     {
         /// <summary>
