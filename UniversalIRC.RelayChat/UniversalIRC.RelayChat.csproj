@@ -5,13 +5,19 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>1.0.2</Version>
-    <Description>C# IRC client compatible with .NET Standard 2.0. The client is highly configurable</Description>
+    <Version>1.0.6</Version>
+    <Description>C# IRC client compatible with .NET Standard 2.0. The client is highly configurable and can be implemented in any .NET application.
+
+- Supports most IRC commands
+- Supports CTCP
+</Description>
     <Copyright>Copyright 2019</Copyright>
     <PackageProjectUrl>https://github.com/yorickdewid/Universal-IRC</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yorickdewid/Universal-IRC</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>.net standard, irc, library, network, chat, relay chat</PackageTags>
+    <Authors>Yorick de Wid</Authors>
+    <Product>Universal RelayChat</Product>
   </PropertyGroup>
 
   <ItemGroup>

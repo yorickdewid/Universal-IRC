@@ -30,14 +30,15 @@ namespace UniversalIRC.RelayChat.Connection
         public event EventHandler Connected;
         public event EventHandler Disconnected;
 
+        /// <summary>
+        /// Invoke the callback when data streams in.
+        /// </summary>
         private readonly DataReceivedCallback dataReceivedCallback;
 
         /// <summary>
         /// Create new instance.
         /// </summary>
-        public TcpClientConnection()
-        {
-        }
+        public TcpClientConnection() { }
 
         /// <summary>
         /// Create new instance.
@@ -96,6 +97,7 @@ namespace UniversalIRC.RelayChat.Connection
             Task.Run(() => SendAsync(data));
         }
 
+        // TODO: HACK: The streamreader 'hangs' on the await while the flow continues
         /// <summary>
         /// Read from the incomming datastream and fire an event when data is received.
         /// </summary>

@@ -8,6 +8,9 @@ using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat
 {
+    /// <summary>
+    /// Manages and tracks the IRC chat objects.
+    /// </summary>
     public class ChatManager : IDisposable
     {
         // List of channels joined by the client

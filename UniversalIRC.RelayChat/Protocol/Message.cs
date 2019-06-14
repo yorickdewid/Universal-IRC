@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UniversalIRC.RelayChat.Protocol
 {
+    /// <summary>
+    /// An IRC message.
+    /// </summary>
     public class Message
     {
         /// <summary>
@@ -34,12 +33,40 @@ namespace UniversalIRC.RelayChat.Protocol
         public NumericCommand NumericCommand { get; set; } = NumericCommand.UNKNOWN;
 
         /// <summary>
+        /// IRC CTCP command.
+        /// </summary>
+        public CtcpCommand CtcpCommand { get; set; } = CtcpCommand.UNKNOWN;
+
+        /// <summary>
+        /// Indicates if the message is a valid IRC message.
+        /// </summary>
+        public bool IsValid
+        {
+            get => Command != Command.UNKNOWN ||
+                NumericCommand != NumericCommand.UNKNOWN;
+        }
+
+        /// <summary>
         /// Convert message object into command string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
-            string message = $"{Command} {Parameters}";
+            string message;
+            if (Command != Command.UNKNOWN)
+            {
+                message = Command.ToString();
+            }
+            else if (NumericCommand != NumericCommand.UNKNOWN)
+            {
+                message = NumericCommand.ToString();
+            }
+            else
+            {
+                message = "INVALID";
+            }
+
+            message += " " + Parameters;
 
             if (Prefix != null) // TODO:
             {
@@ -80,6 +107,18 @@ namespace UniversalIRC.RelayChat.Protocol
                 data = data.Substring(0, indexOfTrailingStart);
             }
 
+            // Strip trailing if this is a CTCP command
+            if (!string.IsNullOrEmpty(message.Trailing) && message.Trailing.StartsWith("\u0001") && message.Trailing.EndsWith("\u0001"))
+            {
+                var trailing = message.Trailing.Substring(1, message.Trailing.Length - 2);
+                if (Enum.TryParse(trailing, out CtcpCommand _ctcpCommand))
+                {
+                    message.CtcpCommand = _ctcpCommand;
+                    message.Trailing = string.Empty;
+                }
+            }
+
+            // Parse the string as command
             void ParseCommand(string _data)
             {
                 if (string.IsNullOrEmpty(_data))
@@ -100,6 +139,7 @@ namespace UniversalIRC.RelayChat.Protocol
                 }
                 else
                 {
+                    // TODO: Throw a parse exception
                     throw new Exception();
                 }
             }

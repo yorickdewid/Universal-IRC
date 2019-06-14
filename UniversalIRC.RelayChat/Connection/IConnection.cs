@@ -6,6 +6,10 @@ namespace UniversalIRC.RelayChat.Connection
     /// <summary>
     /// Connection interface.
     /// </summary>
+    /// <remarks>
+    /// The connection interface is only responsible for
+    /// data transfers and is unaware of the application.
+    /// </remarks>
     public interface IConnection : IDisposable
     {
         /// <summary>

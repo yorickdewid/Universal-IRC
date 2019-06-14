@@ -6,6 +6,9 @@ using UniversalIRC.RelayChat.Protocol;
 
 namespace UniversalIRC.RelayChat.Client
 {
+    /// <summary>
+    /// IRC application interface.
+    /// </summary>
     public interface IIRCClient : IDisposable
     {
         /// <summary>
