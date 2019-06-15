@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UniversalIRC.RelayChat.Protocol
+﻿namespace UniversalIRC.RelayChat.Protocol
 {
     public enum Command
     {

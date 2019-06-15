@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UniversalIRC.RelayChat.Protocol
+﻿namespace UniversalIRC.RelayChat.Protocol
 {
     public enum NumericCommand
     {
@@ -77,6 +75,7 @@ namespace UniversalIRC.RelayChat.Protocol
         RPL_UMODEIS = 221,
         RPL_SERVLIST = 234,
         RPL_SERVLISTEND = 235,
+        RPL_STATSCONN = 250,
         RPL_LUSERCLIENT = 251,
         RPL_LUSEROP = 252,
         RPL_LUSERUNKNOWN = 253,
@@ -87,6 +86,8 @@ namespace UniversalIRC.RelayChat.Protocol
         RPL_ADMINLOC2 = 258,
         RPL_ADMINEMAIL = 259,
         RPL_TRYAGAIN = 263,
+        RPL_LOCALUSERS = 265,
+        RPL_GLOBALUSERS =  266,
         ERR_NOSUCHNICK = 401,
         ERR_NOSUCHSERVER = 402,
         ERR_NOSUCHCHANNEL = 403,
@@ -139,6 +140,7 @@ namespace UniversalIRC.RelayChat.Protocol
         ERR_UNIQOPPRIVSNEEDED = 485,
         ERR_NOOPERHOST = 491,
         ERR_UMODEUNKNOWNFLAG = 501,
-        ERR_USERSDONTMATCH = 502
+        ERR_USERSDONTMATCH = 502,
+        ERR_NUMERIC_ERR = 999,
     }
 }

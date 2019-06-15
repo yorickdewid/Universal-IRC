@@ -11,12 +11,21 @@ namespace UniversalIRC.RelayChat.Protocol
         public string NickNameOrChannel { get; }
         public string TextMessage { get; }
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
+        /// <param name="target">Message recipient.</param>
+        /// <param name="message">Notice message.</param>
         public NoticeMessage(string target, string message)
         {
             NickNameOrChannel = target;
             TextMessage = message;
         }
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
+        /// <param name="message">Notice message.</param>
         public NoticeMessage(Message message)
         {
             NickNameOrChannel = message.Parameters;

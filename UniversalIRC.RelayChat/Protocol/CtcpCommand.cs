@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UniversalIRC.RelayChat.Protocol
+﻿namespace UniversalIRC.RelayChat.Protocol
 {
     public enum CtcpCommand
     {
@@ -8,5 +6,10 @@ namespace UniversalIRC.RelayChat.Protocol
         VERSION,
         TIME,
         PING,
+        ACTION,
+        SOURCE,
+        FINGER,
+        CLIENTINFO,
+        USERINFO,
     }
 }
