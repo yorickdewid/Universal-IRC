@@ -111,10 +111,22 @@ namespace UniversalIRC.RelayChat.Protocol
             if (!string.IsNullOrEmpty(message.Trailing) && message.Trailing.StartsWith("\u0001") && message.Trailing.EndsWith("\u0001"))
             {
                 var trailing = message.Trailing.Substring(1, message.Trailing.Length - 2);
-                if (Enum.TryParse(trailing, out CtcpCommand _ctcpCommand))
+                var command = trailing;
+                int indexOfNextSpace = trailing.IndexOf(' ');
+                if (indexOfNextSpace > -1)
+                {
+                    command = trailing.Substring(0, indexOfNextSpace);
+                    trailing = trailing.Substring(indexOfNextSpace + 1);
+                }
+                else
+                {
+                    trailing = string.Empty;
+                }
+
+                if (Enum.TryParse(command, out CtcpCommand _ctcpCommand))
                 {
                     message.CtcpCommand = _ctcpCommand;
-                    message.Trailing = string.Empty;
+                    message.Trailing = trailing;
                 }
             }
 
