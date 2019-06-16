@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using UniversalIRC.RelayChat.Connection;
 using UniversalIRC.RelayChat.Extensions;
@@ -17,6 +18,14 @@ namespace UniversalIRC.RelayChat.Client
         /// Is client connected to the network.
         /// </summary>
         public bool IsConnected { get => Connection.IsConnected; }
+
+        /// <summary>
+        /// Wether to respond on CTCP requests.
+        /// </summary>'
+        /// <remarks>
+        /// Disabling the auto-responder can break standards.
+        /// </remarks>
+        public bool AutoCtcpResponse { get; set; } = true;
 
         public event MessageEventHandler<PrivMsgMessage> OnPrivMsg;
         public event MessageEventHandler<NoticeMessage> OnNotice;
@@ -71,6 +80,75 @@ namespace UniversalIRC.RelayChat.Client
         }
 
         /// <summary>
+        /// Automatically respond to CTCP messages if configured to do so.
+        /// </summary>
+        /// <param name="message">Incomming message.</param>
+        private void HandleCtcp(Message message)
+        {
+            switch (message.CtcpCommand)
+            {
+                // Handle version command if required
+                case CtcpCommand.VERSION:
+                    if (string.IsNullOrEmpty(message.Trailing) && AutoCtcpResponse)
+                    {
+                        var command = new Ctcp(CtcpCommand.VERSION, Constant.ApplicationVersionString);
+                        SendAsync(new NoticeMessage(message.Prefix.Name, command.ToString())).Wait();
+                    }
+                    break;
+
+                // Handle time command if required
+                case CtcpCommand.TIME:
+                    if (string.IsNullOrEmpty(message.Trailing) && AutoCtcpResponse)
+                    {
+                        // NOTE: Return UTC time for privacy reasons
+                        var command = new Ctcp(CtcpCommand.TIME, DateTime.UtcNow.AsCTime());
+                        SendAsync(new NoticeMessage(message.Prefix.Name, command.ToString())).Wait();
+                    }
+                    break;
+
+                // Handle ping command if required
+                case CtcpCommand.PING:
+                    if (AutoCtcpResponse)
+                    {
+                        var command = new Ctcp(CtcpCommand.PING, message.Trailing);
+                        SendAsync(new NoticeMessage(message.Prefix.Name, command.ToString())).Wait();
+                    }
+                    break;
+            }
+        }
+
+        private void HandlePing(Message message)
+        {
+            SendAsync(new PongMessage(message.Trailing)).Wait();
+        }
+
+        private void HandlePrivMsg(Message message)
+        {
+            // Catch CTCP messages
+            HandleCtcp(message);
+
+            OnPrivMsg?.Invoke(new MessageReceivedEventArgs<PrivMsgMessage>(message));
+        }
+
+        private void HandleNotice(Message message)
+        {
+            // Catch CTCP messages
+            HandleCtcp(message);
+
+            OnNotice?.Invoke(new MessageReceivedEventArgs<NoticeMessage>(message));
+        }
+
+        private void HandleNick(Message message)
+        {
+            // TODO:
+        }
+
+        private void HandleMode(Message message)
+        {
+            // TODO:
+        }
+
+        /// <summary>
         /// Parse the received data and create an response if
         /// required or wrap the message and trigger event for external
         /// processing.
@@ -82,41 +160,83 @@ namespace UniversalIRC.RelayChat.Client
 
             // Convert data into IRC message and dispatch the message
             var message = Message.Parse(data);
+            if (!message.IsValid)
+            {
+                // TODO: Throw something useful
+                throw new System.Exception();
+            }
+
             switch (message.Command)
             {
                 // Respond with pong and keep the connection active
                 case Command.PING:
-                    SendAsync(new PongMessage(message.Trailing)).Wait();
+                    HandlePing(message);
                     break;
+
                 // Ignore pong
                 case Command.PONG:
                     break;
+
                 // Fire incomming private message
                 case Command.PRIVMSG:
-                    OnPrivMsg?.Invoke(new MessageReceivedEventArgs<PrivMsgMessage>(message));
+                    HandlePrivMsg(message);
                     break;
+
                 // Fire incomming notice message
                 case Command.NOTICE:
-                    OnNotice?.Invoke(new MessageReceivedEventArgs<NoticeMessage>(message));
+                    HandleNotice(message);
                     break;
+
                 // Fire join event
                 case Command.JOIN:
                     OnJoin?.Invoke(new MessageReceivedEventArgs<JoinMessage>(message));
                     break;
+
                 // Fire part event
                 case Command.PART:
                     OnPart?.Invoke(new MessageReceivedEventArgs<PartMessage>(message));
                     break;
+
                 // Fire quit event
                 case Command.QUIT:
                     OnQuit?.Invoke(new MessageReceivedEventArgs<QuitMessage>(message));
                     break;
+
+                // Fire nick changed event
                 case Command.NICK:
-                    break;
-                case Command.MODE:
+                    HandleNick(message);
                     break;
 
-                    // FUTURE: Add new commands down here
+                // Set user modes
+                case Command.MODE:
+                    HandleMode(message);
+                    break;
+
+                case Command.ERROR:
+                    OnError?.Invoke(new MessageReceivedEventArgs<QuitMessage>(message));
+                    break;
+
+                case Command.UNKNOWN:
+                    switch (message.NumericCommand)
+                    {
+                        case NumericCommand.RPL_MOTDSTART:
+                        case NumericCommand.RPL_MOTD:
+                            MessageOfTheDay += message.Trailing + "\n";
+                            break;
+                        case NumericCommand.RPL_ENDOFMOTD:
+                            // TODO: Kick MOTD
+                            MessageOfTheDay = string.Empty;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                // FUTURE: Add new commands here
+
+                default:
+                    throw new System.Exception();
             }
         }
 
