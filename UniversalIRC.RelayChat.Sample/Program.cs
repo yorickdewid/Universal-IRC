@@ -25,7 +25,10 @@ namespace UniversalIRC.RelayChat.Sample
                 .UseConsoleLifetime()
                 .Build();
 
-            await host.RunAsync();
+            using (host)
+            {
+                await host.RunAsync();
+            }
         }
     }
 }
