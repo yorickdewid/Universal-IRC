@@ -1,19 +1,22 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace UniversalIRC.RelayChat.Sample
 {
-    class Program
+    /// <summary>
+    /// Program entry.
+    /// </summary>
+    internal static class Program
     {
         /// <summary>
         /// Application entry point.
         /// </summary>
         /// <param name="args">Commandline arguments.</param>
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            var host = new HostBuilder()
+            using var host = new HostBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<ChatHostedService>();
@@ -24,11 +27,8 @@ namespace UniversalIRC.RelayChat.Sample
                 })
                 .UseConsoleLifetime()
                 .Build();
-
-            using (host)
-            {
-                await host.RunAsync();
-            }
+            
+            await host.RunAsync();
         }
     }
 }
