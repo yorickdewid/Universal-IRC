@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using UniversalIRC.RelayChat.Client;
 using UniversalIRC.RelayChat.Models;
 
@@ -11,7 +11,6 @@ namespace UniversalIRC.RelayChat.Sample
     internal class ChatHostedService : IHostedService, IDisposable
     {
         private readonly ChatManager chatManager = new ChatManager(new ChatClient());
-
         private readonly ILogger _logger;
 
         public ChatHostedService(ILogger<ChatHostedService> logger)

@@ -75,6 +75,7 @@ namespace UniversalIRC.RelayChat.Connection
         /// <param name="port">Remote port.</param>
         public void Connect(string address, int port)
         {
+            // TODO: Task needs to be awaited
             Task.Run(() => ConnectAsync(address, port));
         }
 
@@ -94,6 +95,7 @@ namespace UniversalIRC.RelayChat.Connection
         /// <param name="data">Message.</param>
         public void Send(string data)
         {
+            // TODO: Task needs to be awaited
             Task.Run(() => SendAsync(data));
         }
 

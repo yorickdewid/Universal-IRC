@@ -9,6 +9,8 @@ namespace UniversalIRC.RelayChat.Client
 {
     public class ChatClient : IIRCClient
     {
+        private string MessageOfTheDay; // TODO:
+
         /// <summary>
         /// Get current connection.
         /// </summary>
@@ -32,6 +34,7 @@ namespace UniversalIRC.RelayChat.Client
         public event MessageEventHandler<JoinMessage> OnJoin;
         public event MessageEventHandler<PartMessage> OnPart;
         public event MessageEventHandler<QuitMessage> OnQuit;
+        public event MessageEventHandler<QuitMessage> OnError; // TODO
 
         /// <summary>
         /// Create a chat client object.
@@ -117,12 +120,12 @@ namespace UniversalIRC.RelayChat.Client
             }
         }
 
-        private void HandlePing(Message message)
+        protected void HandlePing(Message message)
         {
             SendAsync(new PongMessage(message.Trailing)).Wait();
         }
 
-        private void HandlePrivMsg(Message message)
+        protected void HandlePrivMsg(Message message)
         {
             // Catch CTCP messages
             HandleCtcp(message);
@@ -130,7 +133,7 @@ namespace UniversalIRC.RelayChat.Client
             OnPrivMsg?.Invoke(new MessageReceivedEventArgs<PrivMsgMessage>(message));
         }
 
-        private void HandleNotice(Message message)
+        protected void HandleNotice(Message message)
         {
             // Catch CTCP messages
             HandleCtcp(message);
@@ -138,12 +141,12 @@ namespace UniversalIRC.RelayChat.Client
             OnNotice?.Invoke(new MessageReceivedEventArgs<NoticeMessage>(message));
         }
 
-        private void HandleNick(Message message)
+        protected void HandleNick(Message message)
         {
             // TODO:
         }
 
-        private void HandleMode(Message message)
+        protected void HandleMode(Message message)
         {
             // TODO:
         }
@@ -163,7 +166,7 @@ namespace UniversalIRC.RelayChat.Client
             if (!message.IsValid)
             {
                 // TODO: Throw something useful
-                throw new System.Exception();
+                throw new Exception();
             }
 
             switch (message.Command)

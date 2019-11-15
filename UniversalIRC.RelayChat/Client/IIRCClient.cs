@@ -26,6 +26,7 @@ namespace UniversalIRC.RelayChat.Client
         event MessageEventHandler<JoinMessage> OnJoin;
         event MessageEventHandler<PartMessage> OnPart;
         event MessageEventHandler<QuitMessage> OnQuit;
+        event MessageEventHandler<QuitMessage> OnError; // TODO
 
         /// <summary>
         /// Connects to the specified IRC server using hostname and port.
