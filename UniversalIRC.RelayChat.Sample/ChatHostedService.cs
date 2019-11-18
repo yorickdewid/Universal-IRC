@@ -29,6 +29,7 @@ namespace UniversalIRC.RelayChat.Sample
             {
                 Principal = new UserAccount(nickname)
             };
+
             network.Notice += NetworkMessage;
 
             chatManager.EnlistChannel += EnlistChannel;
