@@ -9,6 +9,7 @@ namespace UniversalIRC.RelayChat.TerminalUI
         private TextField nicknameTxt;
         private Button connectBtn;
 
+        public event EventHandler OnConnect;
         public Action<string, string> Connect;
 
         public ConnectWindow()
@@ -56,7 +57,7 @@ namespace UniversalIRC.RelayChat.TerminalUI
             connectBtn = new Button("Connect")
             {
                 X = Pos.Left(networkLbl),
-                Y = Pos.Top(networkLbl) + 5,
+                Y = Pos.Top(networkLbl) + 3,
             };
 
             Add(networkLbl, nicknameLbl, networkTxt, nicknameTxt, connectBtn);
@@ -79,6 +80,7 @@ namespace UniversalIRC.RelayChat.TerminalUI
                 }
 
                 Connect?.Invoke(networkTxt.Text.ToString(), nicknameTxt.Text.ToString());
+                OnConnect?.Invoke(this, EventArgs.Empty);
             };
         }
     }
