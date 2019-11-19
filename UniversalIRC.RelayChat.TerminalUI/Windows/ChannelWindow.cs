@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terminal.Gui;
 
-namespace UniversalIRC.RelayChat.TerminalUI
+namespace UniversalIRC.RelayChat.TerminalUI.Windows
 {
     internal class ChannelWindow : Window
     {

@@ -10,16 +10,6 @@ namespace UniversalIRC.RelayChat.TerminalUI
 
             SetupCanvas(Application.Top);
 #if _x
-            connectWindow.Connect = (network, nick) =>
-            {
-                //MessageBox.Query(60, 7, string.Empty, $"Connecting {network}", "Ok");
-
-                chatWindow.Frame = currentWindow.Frame;
-                top.Remove(currentWindow);
-                currentWindow = chatWindow;
-                top.Add(currentWindow);
-                currentWindow.Redraw(currentWindow.Frame);
-            };
 
             #region FUTURE
             //buttonConnect.Clicked = () =>

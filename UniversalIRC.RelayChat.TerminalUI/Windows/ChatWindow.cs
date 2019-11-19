@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terminal.Gui;
 using UniversalIRC.RelayChat.TerminalUI.Components;
 
-namespace UniversalIRC.RelayChat.TerminalUI
+namespace UniversalIRC.RelayChat.TerminalUI.Windows
 {
     internal class ChatWindow : Window
     {

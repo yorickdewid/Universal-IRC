@@ -1,7 +1,7 @@
 ﻿using System;
 using Terminal.Gui;
 
-namespace UniversalIRC.RelayChat.TerminalUI
+namespace UniversalIRC.RelayChat.TerminalUI.Windows
 {
     internal class ConnectWindow : Window
     {

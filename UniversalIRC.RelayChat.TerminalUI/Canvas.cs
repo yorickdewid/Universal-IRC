@@ -1,26 +1,48 @@
-﻿using Terminal.Gui;
+﻿using System;
+using System.Collections.Generic;
+using Terminal.Gui;
+using UniversalIRC.RelayChat.TerminalUI.Windows;
 
 namespace UniversalIRC.RelayChat.TerminalUI
 {
     internal class Canvas : View
     {
-        private View currentView;
+        private readonly Stack<View> _viewStack;
+        private readonly IRouter _router;
+        private readonly IList<Lazy<Window>> _routeMapper;
 
         public Canvas()
+            : this(new Rect(), null)
         {
-            currentView = new ConnectWindow();
+        }
+
+        public Canvas(IRouter router)
+            : this(new Rect(), router)
+        {
+        }
+
+        public Canvas(Rect frame, IRouter router)
+            : base(frame)
+        {
+            _viewStack.Push(new ConnectWindow());
+
+            //routeMapper = new List<Lazy<Window>>
+            //{
+            //    new Lazy<ConnectWindow>(),
+            //    new Lazy<ChatWindow>(),
+            //    new Lazy<ChannelWindow>(),
+            //};
+
+            _router = router ?? new Router();
+            _router.OnRoute += HandleRoute;
 
             AddLayoutView();
             AddLayoutAction();
         }
 
-        public Canvas(Rect frame)
-            : base(frame)
+        private void HandleRoute(object sender, System.EventArgs e)
         {
-            currentView = new ConnectWindow();
-
-            AddLayoutView();
-            AddLayoutAction();
+            //
         }
 
         protected virtual void AddLayoutView()
@@ -30,7 +52,7 @@ namespace UniversalIRC.RelayChat.TerminalUI
                     new MenuItem ("_Quit", string.Empty, SignalQuit),
                 }),
                 new MenuBarItem ("_Channel", new MenuItem [] {
-                    new MenuItem ("_Channel list", string.Empty, null),
+                    new MenuItem ("_Channel list", string.Empty, ()=> _router.Push("channel_list")),
                     new MenuItem ("_Join", string.Empty, null),
                     new MenuItem ("_Part", string.Empty, null),
                 }),
@@ -41,12 +63,12 @@ namespace UniversalIRC.RelayChat.TerminalUI
 
             Add(menu);
 
-            currentView.X = Pos.X(menu);
-            currentView.Y = Pos.Bottom(menu);
-            currentView.Width = Dim.Fill();
-            currentView.Height = Dim.Fill();
+            _viewStack.Peek().X = Pos.X(menu);
+            _viewStack.Peek().Y = Pos.Bottom(menu);
+            _viewStack.Peek().Width = Dim.Fill();
+            _viewStack.Peek().Height = Dim.Fill();
 
-            Add(currentView);
+            Add(_viewStack.Peek());
         }
 
         protected virtual void AddLayoutAction()
