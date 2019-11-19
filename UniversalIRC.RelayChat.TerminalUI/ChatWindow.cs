@@ -25,7 +25,7 @@ namespace UniversalIRC.RelayChat.TerminalUI
         }
 
         public ChatWindow(string title)
-            : base($"Chat {title}")
+            : base($"Chat [ {title} ] #Crypto #Ubuntu")
         {
             AddLayoutView();
             AddLayoutAction();
@@ -54,7 +54,12 @@ namespace UniversalIRC.RelayChat.TerminalUI
                 AllowsMarking = false,
             };
 
-            inputTxt = new ExtendedTextField(1, 25, 80, string.Empty);
+            inputTxt = new ExtendedTextField(string.Empty)
+            {
+                X = 1,
+                Y = 25,
+                Width = Dim.Fill()
+            };
 
             Add(chatLst, inputTxt);
         }
